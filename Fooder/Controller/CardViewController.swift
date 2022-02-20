@@ -8,15 +8,18 @@
 import UIKit
 import VerticalCardSwiper
 
-class ViewController: UIViewController, VerticalCardSwiperDatasource, VerticalCardSwiperDelegate
+class CardViewController: UIViewController, VerticalCardSwiperDatasource, VerticalCardSwiperDelegate
 {
 
+    var selectedCell: MyVerticalCardSwiper?
+    
     @IBOutlet var cardSwiper: VerticalCardSwiper!
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
+        cardSwiper.delegate = self
         cardSwiper.datasource = self
         cardSwiper.isSideSwipingEnabled = false
         cardSwiper.register(nib: UINib(nibName: K.cardSwiperNibName, bundle: nil), forCellWithReuseIdentifier: K.cardSwiperNibName)
@@ -41,18 +44,18 @@ class ViewController: UIViewController, VerticalCardSwiperDatasource, VerticalCa
     //MARK: - VerticalCardSwiper Delegate Methods
     func didTapCard(verticalCardSwiperView: VerticalCardSwiperView, index: Int)
     {
-//        let detailVC = DetailCardViewController()
-//
-//        let cell = cardSwiper.cardForItem(at: index) as? VerticalCardSwiperCell
-//        print(cell)
-//        selectedCell = cell
-//        detailVC.dismissClosure = { [weak self] in
+        let detailVC = DetailCardViewController()
+
+        let cell = cardSwiper.cardForItem(at: index) as? MyVerticalCardSwiper
+        print(cell)
+        selectedCell = cell
+        detailVC.dismissClosure = { [weak self] in
 //            guard let StrongSelf = self else { return }
 //            StrongSelf.updateStatusBar(visible: true)
-//        }
-//        detailVC.backImage = imageList[index]
+        }
+        detailVC.backImage = "img2"
 //        updateStatusBar(visible: false)
-//        present(detailVC, animated: true, completion: nil)
+        present(detailVC, animated: true, completion: nil)
     }
 }
 

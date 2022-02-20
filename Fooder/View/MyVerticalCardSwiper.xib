@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="450" id="KGk-i7-Jjw" customClass="MyVerticalCardSwiper" customModule="Fooder" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="275" height="450"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="275" height="450"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7WJ-Jr-npj">
+                        <rect key="frame" x="0.0" y="0.0" width="275" height="450"/>
+                    </imageView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cCW-Dc-ICT">
+                        <rect key="frame" x="0.0" y="0.0" width="275" height="450"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VzB-IP-eM4">
+                                <rect key="frame" x="12" y="293" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xnU-xv-Stq">
+                                <rect key="frame" x="12" y="322" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="VzB-IP-eM4" firstAttribute="leading" secondItem="cCW-Dc-ICT" secondAttribute="leading" constant="12" id="40M-Rd-m7H"/>
+                            <constraint firstItem="xnU-xv-Stq" firstAttribute="leading" secondItem="cCW-Dc-ICT" secondAttribute="leading" constant="12" id="DSd-Lw-UOr"/>
+                            <constraint firstAttribute="bottom" secondItem="xnU-xv-Stq" secondAttribute="bottom" constant="107" id="YOB-k0-VEt"/>
+                            <constraint firstItem="xnU-xv-Stq" firstAttribute="top" secondItem="VzB-IP-eM4" secondAttribute="bottom" constant="8" id="rXN-JR-H55"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="7WJ-Jr-npj" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="6UG-K8-vuC"/>
+                    <constraint firstAttribute="bottom" secondItem="cCW-Dc-ICT" secondAttribute="bottom" id="GIv-AZ-CzF"/>
+                    <constraint firstItem="7WJ-Jr-npj" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="PB2-tA-jnq"/>
+                    <constraint firstItem="cCW-Dc-ICT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Qsk-pc-u9U"/>
+                    <constraint firstAttribute="bottom" secondItem="7WJ-Jr-npj" secondAttribute="bottom" id="gGf-sX-ctp"/>
+                    <constraint firstAttribute="trailing" secondItem="cCW-Dc-ICT" secondAttribute="trailing" id="kOr-Jb-5E9"/>
+                    <constraint firstItem="cCW-Dc-ICT" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="qcs-wm-xCa"/>
+                    <constraint firstAttribute="trailing" secondItem="7WJ-Jr-npj" secondAttribute="trailing" id="qi1-WV-F2W"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="backgroundImg" destination="7WJ-Jr-npj" id="UOY-Ad-LZU"/>
+                <outlet property="bgView" destination="H2p-sc-9uM" id="Z4N-Pi-s4d"/>
+                <outlet property="opacityView" destination="cCW-Dc-ICT" id="oEg-gF-FbN"/>
+                <outlet property="subtitleLabel" destination="xnU-xv-Stq" id="AOP-km-QHm"/>
+                <outlet property="titleLabel" destination="VzB-IP-eM4" id="ACQ-Xm-fgW"/>
+            </connections>
+            <point key="canvasLocation" x="97.826086956521749" y="248.4375"/>
+        </tableViewCell>
+    </objects>
+</document>

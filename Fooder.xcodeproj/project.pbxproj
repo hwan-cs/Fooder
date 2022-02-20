@@ -8,21 +8,27 @@
 
 /* Begin PBXBuildFile section */
 		1A642BE227C126F000151F85 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A642BE127C126F000151F85 /* AppDelegate.swift */; };
-		1A642BE627C126F000151F85 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A642BE527C126F000151F85 /* ViewController.swift */; };
+		1A642BE627C126F000151F85 /* CardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A642BE527C126F000151F85 /* CardViewController.swift */; };
 		1A642BE927C126F000151F85 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A642BE727C126F000151F85 /* Main.storyboard */; };
 		1A642BEB27C126F600151F85 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A642BEA27C126F600151F85 /* Assets.xcassets */; };
 		1A642BEE27C126F600151F85 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A642BEC27C126F600151F85 /* LaunchScreen.storyboard */; };
+		1A642BF827C277A700151F85 /* MyVerticalCardSwiper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A642BF627C277A700151F85 /* MyVerticalCardSwiper.swift */; };
+		1A642BF927C277A700151F85 /* MyVerticalCardSwiper.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A642BF727C277A700151F85 /* MyVerticalCardSwiper.xib */; };
+		1A642BFC27C27C2900151F85 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A642BFB27C27C2900151F85 /* Constants.swift */; };
 		3EBD96A53CA0ABBE1FB17429 /* Pods_Fooder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1EA9EB80CE4B48C4D6F808E /* Pods_Fooder.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1A642BDE27C126F000151F85 /* Fooder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fooder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A642BE127C126F000151F85 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1A642BE527C126F000151F85 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		1A642BE527C126F000151F85 /* CardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewController.swift; sourceTree = "<group>"; };
 		1A642BE827C126F000151F85 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1A642BEA27C126F600151F85 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1A642BED27C126F600151F85 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1A642BEF27C126F600151F85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1A642BF627C277A700151F85 /* MyVerticalCardSwiper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyVerticalCardSwiper.swift; sourceTree = "<group>"; };
+		1A642BF727C277A700151F85 /* MyVerticalCardSwiper.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyVerticalCardSwiper.xib; sourceTree = "<group>"; };
+		1A642BFB27C27C2900151F85 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		7D298F39BC028C6446FC8C18 /* Pods-Fooder.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fooder.debug.xcconfig"; path = "Target Support Files/Pods-Fooder/Pods-Fooder.debug.xcconfig"; sourceTree = "<group>"; };
 		B1EA9EB80CE4B48C4D6F808E /* Pods_Fooder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fooder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBA8871A0A4F7F46B94BD68A /* Pods-Fooder.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fooder.release.xcconfig"; path = "Target Support Files/Pods-Fooder/Pods-Fooder.release.xcconfig"; sourceTree = "<group>"; };
@@ -62,13 +68,32 @@
 			isa = PBXGroup;
 			children = (
 				1A642BE127C126F000151F85 /* AppDelegate.swift */,
-				1A642BE527C126F000151F85 /* ViewController.swift */,
+				1A642BFA27C277AD00151F85 /* View */,
+				1A642BF527C26BE600151F85 /* Controller */,
 				1A642BE727C126F000151F85 /* Main.storyboard */,
 				1A642BEA27C126F600151F85 /* Assets.xcassets */,
 				1A642BEC27C126F600151F85 /* LaunchScreen.storyboard */,
 				1A642BEF27C126F600151F85 /* Info.plist */,
+				1A642BFB27C27C2900151F85 /* Constants.swift */,
 			);
 			path = Fooder;
+			sourceTree = "<group>";
+		};
+		1A642BF527C26BE600151F85 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				1A642BE527C126F000151F85 /* CardViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		1A642BFA27C277AD00151F85 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1A642BF627C277A700151F85 /* MyVerticalCardSwiper.swift */,
+				1A642BF727C277A700151F85 /* MyVerticalCardSwiper.xib */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		AA11D5DEE52056F86DE74AF3 /* Frameworks */ = {
@@ -85,7 +110,6 @@
 				7D298F39BC028C6446FC8C18 /* Pods-Fooder.debug.xcconfig */,
 				BBA8871A0A4F7F46B94BD68A /* Pods-Fooder.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -150,6 +174,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A642BEE27C126F600151F85 /* LaunchScreen.storyboard in Resources */,
+				1A642BF927C277A700151F85 /* MyVerticalCardSwiper.xib in Resources */,
 				1A642BEB27C126F600151F85 /* Assets.xcassets in Resources */,
 				1A642BE927C126F000151F85 /* Main.storyboard in Resources */,
 			);
@@ -204,8 +229,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A642BE627C126F000151F85 /* ViewController.swift in Sources */,
+				1A642BF827C277A700151F85 /* MyVerticalCardSwiper.swift in Sources */,
+				1A642BE627C126F000151F85 /* CardViewController.swift in Sources */,
 				1A642BE227C126F000151F85 /* AppDelegate.swift in Sources */,
+				1A642BFC27C27C2900151F85 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

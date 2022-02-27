@@ -63,7 +63,11 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
                 }
                 if let safeData = data
                 {
-                    print(safeData)
+                    let placesList = self.parseJSON(placesData: safeData)!
+                    for place in placesList.results
+                    {
+                        print(place.name)
+                    }
                 }
             }
             //4. start the task
@@ -71,6 +75,21 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
         }
     }
     
+    func parseJSON(placesData: Data) -> PlacesData?
+    {
+        let decoder = JSONDecoder()
+        do
+        {
+            let places = try decoder.decode(PlacesData.self, from: placesData)
+            
+            return places
+        }
+        catch let error
+        {
+            print(error.localizedDescription)
+            return nil
+        }
+    }
     //MARK: - VerticalCardSwiper DataSource Methods
     func cardForItemAt(verticalCardSwiperView: VerticalCardSwiperView, cardForItemAt index: Int) -> CardCell
     {

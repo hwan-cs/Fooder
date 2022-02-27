@@ -1,16 +1,20 @@
 PODS:
+  - GooglePlaces (6.0.0)
   - VerticalCardSwiper (2.3.1)
 
 DEPENDENCIES:
+  - GooglePlaces
   - VerticalCardSwiper
 
 SPEC REPOS:
   trunk:
+    - GooglePlaces
     - VerticalCardSwiper
 
 SPEC CHECKSUMS:
+  GooglePlaces: c97d96ae68594acb64035c9ca9f26fbfc1d23af1
   VerticalCardSwiper: 68df635b354500f86934ea044ade37a264c044c6
 
-PODFILE CHECKSUM: 285c63310ea393ed1a1f23cfc8ce46a60493f394
+PODFILE CHECKSUM: 7c48885bc3341422153adf7d071b83dfd1f98e8d
 
 COCOAPODS: 1.10.1

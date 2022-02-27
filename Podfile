@@ -7,5 +7,5 @@ target 'Fooder' do
 
   # Pods for Fooder
   pod 'VerticalCardSwiper'
-
+  pod 'GooglePlaces'
 end

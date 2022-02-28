@@ -19,6 +19,9 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
     
     let placesURL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?language=ko"
     
+    var placesName = [String]()
+    var photoReference = [String]()
+    
     @IBOutlet var cardSwiper: VerticalCardSwiper!
     
     override func viewDidLoad()
@@ -66,7 +69,15 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
                     let placesList = self.parseJSON(placesData: safeData)!
                     for place in placesList.results
                     {
-                        print(place.name)
+                        self.placesName.append(place.name)
+                        if place.photos != nil
+                        {
+                            self.photoReference.append(place.photos![0].photo_reference)
+                        }
+                        else
+                        {
+                            self.photoReference.append("nil")
+                        }
                     }
                 }
             }
@@ -96,14 +107,14 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
         guard let cell =  verticalCardSwiperView.dequeueReusableCell(withReuseIdentifier: K.cardSwiperNibName, for: index) as? MyVerticalCardSwiper else {
             return CardCell()
         }
-        cell.initCell(background: "img1", title: "Foobar", subtitle: "test123")
+        cell.initCell(background: "img1", title: self.placesName[index], subtitle: "test123")
         
         return cell
     }
     
     func numberOfCards(verticalCardSwiperView: VerticalCardSwiperView) -> Int
     {
-        return 10
+        return 20
     }
     
     //MARK: - VerticalCardSwiper Delegate Methods

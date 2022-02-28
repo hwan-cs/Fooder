@@ -19,4 +19,12 @@ struct Place: Codable
     let place_id: String
     let reference: String
     let vicinity: String
+    let photos: [Photo]?
+}
+
+struct Photo: Codable
+{
+    let height: Int
+    let width: Int
+    let photo_reference: String
 }

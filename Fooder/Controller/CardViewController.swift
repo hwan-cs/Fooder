@@ -38,11 +38,13 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
         
         placesClient = GMSPlacesClient.shared()
         
-        fetchNearbyRestaurants { success in
+        let currentLocation = locationManager?.location
+        let urlString = "\(placesURL)&location=\(currentLocation!.coordinate.latitude),\(currentLocation!.coordinate.longitude)&radius=5000&type=restaurant&keyword=food&key=\(K.placesAPIKey)"
+        fetchNearbyRestaurants(urlString, currentLocation!) { success in
             if success == true
             {
-                print(self.placesName)
-                print(self.photoReference)
+                print(self.placesName.count)
+                print(self.photoReference.count)
                 self.cardSwiper.datasource = self
                 DispatchQueue.main.async
                 {
@@ -57,12 +59,10 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
         locationManager?.stopUpdatingLocation()
     }
     
-    func fetchNearbyRestaurants(completion: @escaping (_ success: Bool) -> Void)
+    func fetchNearbyRestaurants(_ url: String, _ location: CLLocation, completion: @escaping (_ success: Bool) -> Void)
     {
-        let currentLocation = locationManager?.location
-        let urlString = "\(placesURL)&location=\(currentLocation!.coordinate.latitude),\(currentLocation!.coordinate.longitude)&radius=5000&type=restaurant&keyword=food&key=\(K.placesAPIKey)"
-        print("URL is: \(urlString)")
-        if let url = URL(string: urlString)
+        print("URL is: \(url)")
+        if let url = URL(string: url)
         {
             //2.create a url sesison
             let session = URLSession(configuration: .default)
@@ -80,6 +80,7 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
                     for place in placesList.results
                     {
                         self.placesName.append(place.name)
+                        print(place.name)
                         if place.photos != nil
                         {
                             self.photoReference.append(place.photos![0].photo_reference)
@@ -90,6 +91,24 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
                         }
                         if place.place_id == placesList.results[placesList.results.endIndex-1].place_id
                         {
+                            if placesList.next_page_token != nil
+                            {
+                                print(placesList.next_page_token)
+                                let urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?pagetoken=\(placesList.next_page_token!)&key=\(K.placesAPIKey)"
+                                DispatchQueue.main.asyncAfter(deadline: .now()+2)
+                                {
+                                    self.fetchNearbyRestaurants(urlString, location) { success in
+                                        if success == true
+                                        {
+                                            DispatchQueue.main.async
+                                            {
+                                                self.cardSwiper.reloadData()
+                                            }
+                                            return
+                                        }
+                                    }
+                                }
+                            }
                             completion(true)
                             return
                         }
@@ -123,7 +142,10 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
             return CardCell()
         }
         cell.initCell(background: self.photoReference[index], title: self.placesName[index], subtitle: "test123")
-        
+        if index == self.placesName.count-1
+        {
+            print("reached end \(self.placesName.count)")
+        }
         return cell
     }
 
@@ -162,7 +184,7 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
     {
         if let location = locations.last
         {
-            print("New location is \(locations)")
+//            print("New location is \(locations)")
         }
     }
 }

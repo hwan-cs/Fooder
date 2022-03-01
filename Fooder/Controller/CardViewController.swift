@@ -29,7 +29,6 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
         super.viewDidLoad()
         
         cardSwiper.delegate = self
-        cardSwiper.datasource = self
         cardSwiper.isSideSwipingEnabled = false
         cardSwiper.register(nib: UINib(nibName: K.cardSwiperNibName, bundle: nil), forCellWithReuseIdentifier: K.cardSwiperNibName)
         
@@ -39,7 +38,18 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
         
         placesClient = GMSPlacesClient.shared()
         
-        fetchNearbyRestaurants()
+        fetchNearbyRestaurants { success in
+            if success == true
+            {
+                print(self.placesName)
+                print(self.photoReference)
+                self.cardSwiper.datasource = self
+                DispatchQueue.main.async
+                {
+                    self.cardSwiper.reloadData()
+                }
+            }
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool)
@@ -47,7 +57,7 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
         locationManager?.stopUpdatingLocation()
     }
     
-    func fetchNearbyRestaurants()
+    func fetchNearbyRestaurants(completion: @escaping (_ success: Bool) -> Void)
     {
         let currentLocation = locationManager?.location
         let urlString = "\(placesURL)&location=\(currentLocation!.coordinate.latitude),\(currentLocation!.coordinate.longitude)&radius=5000&type=restaurant&keyword=food&key=\(K.placesAPIKey)"
@@ -78,6 +88,11 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
                         {
                             self.photoReference.append("nil")
                         }
+                        if place.place_id == placesList.results[placesList.results.endIndex-1].place_id
+                        {
+                            completion(true)
+                            return
+                        }
                     }
                 }
             }
@@ -107,14 +122,14 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
         guard let cell =  verticalCardSwiperView.dequeueReusableCell(withReuseIdentifier: K.cardSwiperNibName, for: index) as? MyVerticalCardSwiper else {
             return CardCell()
         }
-        cell.initCell(background: "img1", title: self.placesName[index], subtitle: "test123")
+        cell.initCell(background: self.photoReference[index], title: self.placesName[index], subtitle: "test123")
         
         return cell
     }
-    
+
     func numberOfCards(verticalCardSwiperView: VerticalCardSwiperView) -> Int
     {
-        return 20
+        return self.placesName.count
     }
     
     //MARK: - VerticalCardSwiper Delegate Methods

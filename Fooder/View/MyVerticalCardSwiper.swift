@@ -59,7 +59,8 @@ extension MyVerticalCardSwiper
 
         titleLabel.font = UIFont.systemFont(ofSize: 45, weight: .bold)
         titleLabel.textColor = .white
-        titleLabel.numberOfLines = 0
+        titleLabel.adjustsFontSizeToFitWidth = true
+        titleLabel.numberOfLines = 1
         
         subtitleLabel.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         subtitleLabel.textColor = .white
@@ -67,12 +68,60 @@ extension MyVerticalCardSwiper
     
     func initCell(background: String, title: String, subtitle: String)
     {
-        if let background = UIImage(named: background)
+        if background != "nil"
         {
-            self.backgroundImg.image = background
+            let url = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1600&photoreference=\(background)&key=\(K.placesAPIKey)"
+            self.backgroundImg.contentMode = .scaleAspectFill
+            self.backgroundImg.setImageUrl(url)
+        }
+        else
+        {
+            self.backgroundImg.image = UIImage(systemName: "photo.fill")
+            self.backgroundImg.backgroundColor = .lightGray
+            self.backgroundImg.contentMode = .scaleAspectFit
         }
         self.titleLabel.text = title
         self.subtitleLabel.text = subtitle
     }
 }
 
+extension UIImageView
+{
+    func setImageUrl(_ url: String)
+    {
+        let cacheKey = NSString(string: url)
+        
+        if let cachedImage = ImageCacheManager.shared.object(forKey: cacheKey)
+        {
+            // 해당 Key 에 캐시이미지가 저장되어 있으면 이미지를 사용
+            self.image = cachedImage
+            return
+        }
+        
+        DispatchQueue.global(qos: .background).async
+        {
+            if let imageUrl = URL(string: url)
+            {
+                URLSession.shared.dataTask(with: imageUrl)
+                { (data, res, err) in
+                    if let _ = err
+                    {
+                        DispatchQueue.main.async
+                        {
+                            self.image = UIImage()
+                        }
+                        return
+                    }
+                    DispatchQueue.main.async
+                    {
+                        if let data = data, let image = UIImage(data: data)
+                        {
+                            ImageCacheManager.shared.setObject(image, forKey: cacheKey) // 다운로드된 이미지를 캐시에 저장
+                            self.image = image
+                        }
+                    }
+                }.resume()
+            }
+        }
+    }
+}

@@ -17,6 +17,8 @@ class DetailCardViewController: UIViewController
     
     var dismissClosure: (()->())?
     
+    var placeID: String
+    
     var interactiveStartingPoint: CGPoint? = nil
 
     var draggingDownToDismiss = false
@@ -33,7 +35,7 @@ class DetailCardViewController: UIViewController
     
     lazy var scrollView: DetailScrollView = {
         let frame = self.view.bounds
-        let view = DetailScrollView(frame: frame)
+        let view = DetailScrollView(frame: frame, id: self.placeID)
         view.delegate = self
         return view
     }()
@@ -47,8 +49,9 @@ class DetailCardViewController: UIViewController
         return button
     }()
     
-    init()
+    init(_ placeID: String)
     {
+        self.placeID = placeID
         super.init(nibName: nil, bundle: nil)
         self.setupTranstion()
     }

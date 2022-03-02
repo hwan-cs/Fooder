@@ -20,7 +20,9 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
     let placesURL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?language=ko"
     
     var placesName = [String]()
+    var placesID = [String]()
     var photoReference = [String]()
+    var placesVicinity = [String]()
     
     @IBOutlet var cardSwiper: VerticalCardSwiper!
     
@@ -80,6 +82,8 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
                     for place in placesList.results
                     {
                         self.placesName.append(place.name)
+                        self.placesVicinity.append(place.vicinity)
+                        self.placesID.append(place.place_id)
                         print(place.name)
                         if place.photos != nil
                         {
@@ -93,21 +97,21 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
                         {
                             if placesList.next_page_token != nil
                             {
-                                print(placesList.next_page_token)
-                                let urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?pagetoken=\(placesList.next_page_token!)&key=\(K.placesAPIKey)"
-                                DispatchQueue.main.asyncAfter(deadline: .now()+2)
-                                {
-                                    self.fetchNearbyRestaurants(urlString, location) { success in
-                                        if success == true
-                                        {
-                                            DispatchQueue.main.async
-                                            {
-                                                self.cardSwiper.reloadData()
-                                            }
-                                            return
-                                        }
-                                    }
-                                }
+//                                print(placesList.next_page_token)
+//                                let urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?pagetoken=\(placesList.next_page_token!)&key=\(K.placesAPIKey)"
+//                                DispatchQueue.main.asyncAfter(deadline: .now()+2)
+//                                {
+//                                    self.fetchNearbyRestaurants(urlString, location) { success in
+//                                        if success == true
+//                                        {
+//                                            DispatchQueue.main.async
+//                                            {
+//                                                self.cardSwiper.reloadData()
+//                                            }
+//                                            return
+//                                        }
+//                                    }
+//                                }
                             }
                             completion(true)
                             return
@@ -141,7 +145,7 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
         guard let cell =  verticalCardSwiperView.dequeueReusableCell(withReuseIdentifier: K.cardSwiperNibName, for: index) as? MyVerticalCardSwiper else {
             return CardCell()
         }
-        cell.initCell(background: self.photoReference[index], title: self.placesName[index], subtitle: "test123")
+        cell.initCell(background: self.photoReference[index], title: self.placesName[index], subtitle: self.placesVicinity[index])
         if index == self.placesName.count-1
         {
             print("reached end \(self.placesName.count)")
@@ -157,7 +161,7 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
     //MARK: - VerticalCardSwiper Delegate Methods
     func didTapCard(verticalCardSwiperView: VerticalCardSwiperView, index: Int)
     {
-        let detailVC = DetailCardViewController()
+        let detailVC = DetailCardViewController(self.placesID[index])
 
         let cell = cardSwiper.cardForItem(at: index) as? MyVerticalCardSwiper
         print(cell)
@@ -166,7 +170,6 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
 //            guard let StrongSelf = self else { return }
 //            StrongSelf.updateStatusBar(visible: true)
         }
-        detailVC.backImage = "img2"
 //        updateStatusBar(visible: false)
         present(detailVC, animated: true, completion: nil)
     }

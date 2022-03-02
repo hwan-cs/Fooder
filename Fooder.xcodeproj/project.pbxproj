@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A5782C227CFA5C0007054A1 /* PlaceDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5782C127CFA5C0007054A1 /* PlaceDetail.swift */; };
 		1A642BE227C126F000151F85 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A642BE127C126F000151F85 /* AppDelegate.swift */; };
 		1A642BE627C126F000151F85 /* CardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A642BE527C126F000151F85 /* CardViewController.swift */; };
 		1A642BE927C126F000151F85 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A642BE727C126F000151F85 /* Main.storyboard */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1A5782C127CFA5C0007054A1 /* PlaceDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetail.swift; sourceTree = "<group>"; };
 		1A642BDE27C126F000151F85 /* Fooder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fooder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A642BE127C126F000151F85 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1A642BE527C126F000151F85 /* CardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewController.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 				1A642C0127C2812B00151F85 /* PopAnimator.swift */,
 				1A6FDB3327CBAB5500C00155 /* PlacesData.swift */,
 				1A6FDB3527CE1B5600C00155 /* ImageCacheManager.swift */,
+				1A5782C127CFA5C0007054A1 /* PlaceDetail.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -277,6 +280,7 @@
 				1A642C0527C282A700151F85 /* CustomPresentationController.swift in Sources */,
 				1A6FDB3627CE1B5600C00155 /* ImageCacheManager.swift in Sources */,
 				1A642C0227C2812B00151F85 /* PopAnimator.swift in Sources */,
+				1A5782C227CFA5C0007054A1 /* PlaceDetail.swift in Sources */,
 				1A642BF827C277A700151F85 /* MyVerticalCardSwiper.swift in Sources */,
 				1A642BFE27C2808B00151F85 /* DetailCardViewController.swift in Sources */,
 				1A642C0027C280B300151F85 /* DetailScrollView.swift in Sources */,

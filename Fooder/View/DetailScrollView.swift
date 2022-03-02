@@ -12,11 +12,27 @@ class DetailScrollView: UIScrollView
     let bgBackView = UIView()
     let imageView = UIImageView()
     let textView = UITextView()
-
-    override init(frame: CGRect)
+    
+    var placeID: String
+    var detail: PlaceDetail?
+    
+    init(frame: CGRect, id: String)
     {
+        self.placeID = id
+        print(self.placeID)
         super.init(frame: frame)
-        setupUI()
+        fetchPlaceDetails(placeID)
+        { success in
+            if success == true
+            {
+                print(self.detail?.result.formatted_phone_number)
+                print(self.detail?.result.opening_hours?.weekday_text)
+                DispatchQueue.main.async
+                {
+                    self.setupUI()
+                }
+            }
+        }
     }
     
     required init?(coder aDecoder: NSCoder)
@@ -34,26 +50,106 @@ class DetailScrollView: UIScrollView
         imageView.contentMode = .scaleAspectFill
         
         let textViewWidth = UIScreen.main.bounds.size.width - 2 * textViewLeftMargin
-        let font = UIFont.boldSystemFont(ofSize: 15)
+        let font = UIFont.boldSystemFont(ofSize: 18)
         let textHeight = textViewText.calculateHeightWith(width: textViewWidth, font: font)
         textView.frame = CGRect(x: textViewLeftMargin, y: bgBackView.frame.height + textViewTopMargin, width: textViewWidth, height: textHeight + textViewBottomMargin)
-        textView.text = textViewText
         textView.font = font
         textView.textColor = .gray
         
         bgBackView.addSubview(imageView)
         addSubview(bgBackView)
         addSubview(textView)
-    
+        
         contentSize = CGSize(width: UIScreen.main.bounds.size.width, height: bgBackView.frame.height + textViewTopMargin + textView.frame.height + textViewBottomMargin)
+        
+        textViewText = ""
+        if let photos = self.detail?.result.photos
+        {
+            let bgImg = photos[Int.random(in: 0..<photos.count)]
+            let url = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1600&photoreference=\(bgImg.photo_reference)&key=\(K.placesAPIKey)"
+            imageView.setImageUrl(url)
+        }
+        else
+        {
+            imageView.image = UIImage(named: "restaurant.jpeg")
+        }
+        textViewText.append("\(self.detail!.result.name)")
+        textViewText.append("\n\n주소: \(self.detail!.result.formatted_address)")
+        if let fpn = self.detail?.result.formatted_phone_number
+        {
+            textViewText.append("\n\n전화번호: \(fpn)")
+        }
+        
+        if let ratings = self.detail?.result.rating, let urt = self.detail?.result.user_ratings_total
+        {
+            textViewText.append("\n\n평점: \(ratings) (\(urt))")
+        }
+        
+        if let open = self.detail?.result.opening_hours
+        {
+            textViewText.append("\n\n")
+            for str in open.weekday_text
+            {
+                textViewText.append("\(str)\n")
+            }
+        }
+        
+        textView.text = textViewText
+    }
+    
+    private func fetchPlaceDetails(_ id: String, completion: @escaping (_ success: Bool) -> Void)
+    {
+        let urlString = "https://maps.googleapis.com/maps/api/place/details/json?fields=name,photo,vicinity,geometry,address_component,formatted_address,adr_address,opening_hours,rating,formatted_phone_number,price_level,reviews,user_ratings_total,permanently_closed&place_id=\(id)&key=\(K.placesAPIKey)"
+        print("URL is: \(urlString)")
+        if let url = URL(string: urlString)
+        {
+            //2.create a url sesison
+            let session = URLSession(configuration: .default)
+            //3. give the session a task
+            let task = session.dataTask(with: url)
+            { (data, response, error) in
+                if error != nil
+                {
+                    print(error?.localizedDescription)
+                    return
+                }
+                if let safeData = data
+                {
+                    if let detail = self.parseJSON(detailData: safeData)
+                    {
+                        self.detail = detail
+                        completion(true)
+                        return
+                    }
+                }
+            }
+            //4. start the task
+            task.resume()
+        }
+    }
+    
+    private func parseJSON(detailData: Data) -> PlaceDetail?
+    {
+        let decoder = JSONDecoder()
+        do
+        {
+            let details = try decoder.decode(PlaceDetail.self, from: detailData)
+            
+            return details
+        }
+        catch let error
+        {
+            print(String(describing: error))
+            return nil
+        }
     }
 }
 
 
 fileprivate let textViewLeftMargin: CGFloat = 20
 fileprivate let textViewTopMargin: CGFloat = 40
-fileprivate let textViewBottomMargin: CGFloat = 50
-fileprivate let textViewText = "Thank you. I'm honored to be with you today for your commencement from one of the finest universities in the world. Truth be told, i never graduated from college and this is the closest I've ever gotten to a college gradution. \n\nToday i want to tell you three stories from my life. That's it. No big deal. Just three stories. The first story is about connecting the dots. \n\ndropped out of Reed College after the first 6 months, but then stayed around as a drop-in for another 18 months or so before I really quit. So why did I drop out? \n\nIt started before I was born. My biological mother was a young,unwed college graduate student, and she decided to put me up for adoption. She felt very strongly that I should be adopted by college graduates, so everything was all set for me to be adopted at birth by a lawyer and his wife. Except that when I popped out they decided at the last minute that they really wanted a girl. So my parents, who were on a waiting list, got a call in the middle of the night asking: 'We got an unexpected baby boy; do you want him?' They said: 'Of course.' My biological mother found out later that my mother had never graduated from college and  my father had never graduated from high school. She refused to sign the final adoption papers. She only relented a few months later when my parents promised that I would  go to college."
+fileprivate let textViewBottomMargin: CGFloat = 200
+fileprivate var textViewText = ""
 
 extension String
 {

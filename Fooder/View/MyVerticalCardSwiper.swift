@@ -64,6 +64,7 @@ extension MyVerticalCardSwiper
         
         subtitleLabel.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         subtitleLabel.textColor = .white
+        subtitleLabel.numberOfLines = 2
     }
     
     func initCell(background: String, title: String, subtitle: String)

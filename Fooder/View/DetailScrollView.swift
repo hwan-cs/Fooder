@@ -25,8 +25,6 @@ class DetailScrollView: UIScrollView
         { success in
             if success == true
             {
-                print(self.detail?.result.formatted_phone_number)
-                print(self.detail?.result.opening_hours?.weekday_text)
                 DispatchQueue.main.async
                 {
                     self.setupUI()
@@ -55,12 +53,13 @@ class DetailScrollView: UIScrollView
         textView.frame = CGRect(x: textViewLeftMargin, y: bgBackView.frame.height + textViewTopMargin, width: textViewWidth, height: textHeight + textViewBottomMargin)
         textView.font = font
         textView.textColor = .gray
+        textView.isUserInteractionEnabled = false
         
         bgBackView.addSubview(imageView)
         addSubview(bgBackView)
         addSubview(textView)
         
-        contentSize = CGSize(width: UIScreen.main.bounds.size.width, height: bgBackView.frame.height + textViewTopMargin + textView.frame.height + textViewBottomMargin)
+        contentSize = CGSize(width: UIScreen.main.bounds.size.width, height: bgBackView.frame.height + textViewTopMargin + textView.frame.height + 100)
         
         textViewText = ""
         if let photos = self.detail?.result.photos

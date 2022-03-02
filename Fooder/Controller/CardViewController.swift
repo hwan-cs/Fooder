@@ -30,6 +30,8 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
     {
         super.viewDidLoad()
         
+        view.backgroundColor = K.bgColor
+        cardSwiper.backgroundColor = K.bgColor
         cardSwiper.delegate = self
         cardSwiper.isSideSwipingEnabled = false
         cardSwiper.register(nib: UINib(nibName: K.cardSwiperNibName, bundle: nil), forCellWithReuseIdentifier: K.cardSwiperNibName)

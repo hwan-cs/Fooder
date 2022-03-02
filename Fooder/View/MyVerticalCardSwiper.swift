@@ -78,7 +78,7 @@ extension MyVerticalCardSwiper
         else
         {
             self.backgroundImg.image = UIImage(systemName: "photo.fill")
-            self.backgroundImg.backgroundColor = .lightGray
+            self.backgroundImg.backgroundColor = K.cardBgColor
             self.backgroundImg.contentMode = .scaleAspectFit
         }
         self.titleLabel.text = title

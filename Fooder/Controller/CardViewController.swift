@@ -43,7 +43,7 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
         placesClient = GMSPlacesClient.shared()
         
         let currentLocation = locationManager?.location
-        let urlString = "\(placesURL)&location=\(currentLocation!.coordinate.latitude),\(currentLocation!.coordinate.longitude)&radius=5000&type=restaurant&keyword=food&key=\(K.placesAPIKey)"
+        let urlString = "\(placesURL)&location=\(currentLocation!.coordinate.latitude),\(currentLocation!.coordinate.longitude)&radius=1000&type=restaurant&keyword=food&key=\(K.placesAPIKey)"
         fetchNearbyRestaurants(urlString, currentLocation!) { success in
             if success == true
             {

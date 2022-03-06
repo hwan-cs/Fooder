@@ -40,6 +40,7 @@ class DetailScrollView: UIScrollView
     
     private func setupUI()
     {
+        backgroundColor = K.detailBgColor
         bgBackView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 500)
         bgBackView.layer.masksToBounds = true
         
@@ -52,14 +53,15 @@ class DetailScrollView: UIScrollView
         let textHeight = textViewText.calculateHeightWith(width: textViewWidth, font: font)
         textView.frame = CGRect(x: textViewLeftMargin, y: bgBackView.frame.height + textViewTopMargin, width: textViewWidth, height: textHeight + textViewBottomMargin)
         textView.font = font
-        textView.textColor = .gray
+        textView.textColor = .black
         textView.isUserInteractionEnabled = false
+        textView.backgroundColor = K.detailBgColor
         
         bgBackView.addSubview(imageView)
         addSubview(bgBackView)
         addSubview(textView)
         
-        contentSize = CGSize(width: UIScreen.main.bounds.size.width, height: bgBackView.frame.height + textViewTopMargin + textView.frame.height + 100)
+        contentSize = CGSize(width: UIScreen.main.bounds.size.width, height: bgBackView.frame.height + textViewTopMargin + textView.frame.height + 150)
         
         textViewText = ""
         if let photos = self.detail?.result.photos

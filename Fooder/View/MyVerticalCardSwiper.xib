@@ -29,13 +29,14 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xnU-xv-Stq">
-                                <rect key="frame" x="12" y="322" width="42" height="21"/>
+                                <rect key="frame" x="12" y="322" width="251" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="xnU-xv-Stq" secondAttribute="trailing" constant="12" id="2mF-57-gWs"/>
                             <constraint firstItem="VzB-IP-eM4" firstAttribute="leading" secondItem="cCW-Dc-ICT" secondAttribute="leading" constant="12" id="40M-Rd-m7H"/>
                             <constraint firstItem="xnU-xv-Stq" firstAttribute="leading" secondItem="cCW-Dc-ICT" secondAttribute="leading" constant="12" id="DSd-Lw-UOr"/>
                             <constraint firstAttribute="bottom" secondItem="xnU-xv-Stq" secondAttribute="bottom" constant="107" id="YOB-k0-VEt"/>

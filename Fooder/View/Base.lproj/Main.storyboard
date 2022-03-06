@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="OxC-eX-gjP">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
@@ -8,6 +8,46 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Main View Controller-->
+        <scene sceneID="hkg-bn-fKQ">
+            <objects>
+                <viewController id="OxC-eX-gjP" customClass="MainViewController" customModule="Fooder" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Eh2-nM-O4H">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="eeR-X8-fEr">
+                                <rect key="frame" x="0.0" y="362" width="414" height="500"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="500" id="HE3-EN-eie"/>
+                                </constraints>
+                            </tableView>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="7CW-ko-7Sw">
+                                <rect key="frame" x="0.0" y="44" width="414" height="51"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="OaQ-Ec-bah"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="eeR-X8-fEr" firstAttribute="leading" secondItem="OaQ-Ec-bah" secondAttribute="leading" id="DrV-Qm-mAq"/>
+                            <constraint firstItem="7CW-ko-7Sw" firstAttribute="leading" secondItem="OaQ-Ec-bah" secondAttribute="leading" id="JXB-5O-8ih"/>
+                            <constraint firstItem="eeR-X8-fEr" firstAttribute="bottom" secondItem="OaQ-Ec-bah" secondAttribute="bottom" id="Pyq-9S-DPn"/>
+                            <constraint firstItem="eeR-X8-fEr" firstAttribute="trailing" secondItem="OaQ-Ec-bah" secondAttribute="trailing" id="eeD-7C-7H8"/>
+                            <constraint firstItem="7CW-ko-7Sw" firstAttribute="top" secondItem="OaQ-Ec-bah" secondAttribute="top" id="kGm-Yf-yVg"/>
+                            <constraint firstItem="7CW-ko-7Sw" firstAttribute="trailing" secondItem="OaQ-Ec-bah" secondAttribute="trailing" id="kN0-FG-t5l"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="searchBar" destination="7CW-ko-7Sw" id="sqk-6u-n7m"/>
+                        <outlet property="tableView" destination="eeR-X8-fEr" id="QJw-1q-Izp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ugs-W2-I5S" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1028.985507246377" y="97.767857142857139"/>
+        </scene>
         <!--Item-->
         <scene sceneID="tne-QT-ifu">
             <objects>

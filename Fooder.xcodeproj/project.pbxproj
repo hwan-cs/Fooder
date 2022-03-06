@@ -22,6 +22,7 @@
 		1A642C0527C282A700151F85 /* CustomPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A642C0427C282A700151F85 /* CustomPresentationController.swift */; };
 		1A6FDB3427CBAB5500C00155 /* PlacesData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6FDB3327CBAB5500C00155 /* PlacesData.swift */; };
 		1A6FDB3627CE1B5600C00155 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6FDB3527CE1B5600C00155 /* ImageCacheManager.swift */; };
+		1AD183C427D501DE006DAC41 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD183C327D501DE006DAC41 /* MainViewController.swift */; };
 		3EBD96A53CA0ABBE1FB17429 /* Pods_Fooder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1EA9EB80CE4B48C4D6F808E /* Pods_Fooder.framework */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +44,7 @@
 		1A642C0427C282A700151F85 /* CustomPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPresentationController.swift; sourceTree = "<group>"; };
 		1A6FDB3327CBAB5500C00155 /* PlacesData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesData.swift; sourceTree = "<group>"; };
 		1A6FDB3527CE1B5600C00155 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
+		1AD183C327D501DE006DAC41 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		7D298F39BC028C6446FC8C18 /* Pods-Fooder.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fooder.debug.xcconfig"; path = "Target Support Files/Pods-Fooder/Pods-Fooder.debug.xcconfig"; sourceTree = "<group>"; };
 		B1EA9EB80CE4B48C4D6F808E /* Pods_Fooder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fooder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBA8871A0A4F7F46B94BD68A /* Pods-Fooder.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fooder.release.xcconfig"; path = "Target Support Files/Pods-Fooder/Pods-Fooder.release.xcconfig"; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 				1A642BE527C126F000151F85 /* CardViewController.swift */,
 				1A642C0427C282A700151F85 /* CustomPresentationController.swift */,
 				1A642BFD27C2808B00151F85 /* DetailCardViewController.swift */,
+				1AD183C327D501DE006DAC41 /* MainViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -279,6 +282,7 @@
 				1A6FDB3427CBAB5500C00155 /* PlacesData.swift in Sources */,
 				1A642C0527C282A700151F85 /* CustomPresentationController.swift in Sources */,
 				1A6FDB3627CE1B5600C00155 /* ImageCacheManager.swift in Sources */,
+				1AD183C427D501DE006DAC41 /* MainViewController.swift in Sources */,
 				1A642C0227C2812B00151F85 /* PopAnimator.swift in Sources */,
 				1A5782C227CFA5C0007054A1 /* PlaceDetail.swift in Sources */,
 				1A642BF827C277A700151F85 /* MyVerticalCardSwiper.swift in Sources */,

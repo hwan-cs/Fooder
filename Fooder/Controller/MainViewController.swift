@@ -14,17 +14,20 @@ class MainViewController: UIViewController
     @IBOutlet var tableView: UITableView!
     @IBOutlet var searchButton: UIButton!
     
+    var didInit = false
+    
     private var tableDataSource: GMSAutocompleteTableDataSource!
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         view.backgroundColor = K.mainBgColor
-        searchBar = UISearchBar(frame: CGRect(x: 0, y: self.view.frame.size.height/2, width: self.view.frame.size.width, height: 44.0))
+        searchBar = UISearchBar(frame: CGRect(x: 0, y: self.view.frame.size.height/2, width: self.view.frame.size.width-80, height: 60.0))
         searchBar.delegate = self
         view.addSubview(searchBar)
         
         tableDataSource = GMSAutocompleteTableDataSource()
+        tableDataSource.primaryTextHighlightColor = .white
         tableDataSource.delegate = self
         
         tableView.delegate = tableDataSource
@@ -39,10 +42,14 @@ class MainViewController: UIViewController
         filter.country = "kr"
         tableDataSource.autocompleteFilter = filter
         
-        searchBar.searchTextField.backgroundColor = .gray
+        searchBar.searchTextField.backgroundColor = K.detailBgColor
         searchBar.barTintColor = UIColor.clear
         searchBar.backgroundImage = UIImage()
+        let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as? UITextField
+        textFieldInsideSearchBar?.textColor = K.cardBgColor
         
+        tableView.backgroundColor = K.mainBgColor
+        tableView.delegate = self
         searchBar.alpha = 0
         tableView.alpha = 0
     }
@@ -65,6 +72,11 @@ class MainViewController: UIViewController
 
 extension MainViewController: UISearchBarDelegate
 {
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool
+    {
+        self.tableView.alpha = 1
+        return true
+    }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
     {
@@ -74,6 +86,15 @@ extension MainViewController: UISearchBarDelegate
 
 extension MainViewController: GMSAutocompleteTableDataSourceDelegate
 {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
+    {
+        cell.backgroundColor = .clear
+//        var content = cell.defaultContentConfiguration()
+//        content.textProperties.font = UIFont.systemFont(ofSize: 16.0, weight: .semibold)
+//        content.textProperties.color = .white
+//        cell.contentConfiguration = content
+    }
+    
     func didUpdateAutocompletePredictions(for tableDataSource: GMSAutocompleteTableDataSource)
     {
         // Turn the network activity indicator off.
@@ -104,5 +125,13 @@ extension MainViewController: GMSAutocompleteTableDataSourceDelegate
     func tableDataSource(_ tableDataSource: GMSAutocompleteTableDataSource, didSelect prediction: GMSAutocompletePrediction) -> Bool
     {
         return true
+    }
+}
+
+extension MainViewController: UITableViewDelegate
+{
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
+    {
+        return 60
     }
 }

@@ -17,13 +17,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="eeR-X8-fEr">
-                                <rect key="frame" x="0.0" y="362" width="414" height="500"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="500" id="HE3-EN-eie"/>
-                                </constraints>
-                            </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qsq-ET-fwH">
                                 <rect key="frame" x="157" y="398" width="100" height="100"/>
                                 <constraints>
@@ -38,6 +31,23 @@
                                     <action selector="searchClicked:" destination="OxC-eX-gjP" eventType="touchUpInside" id="XJ8-yq-QKj"/>
                                 </connections>
                             </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="eeR-X8-fEr">
+                                <rect key="frame" x="0.0" y="124" width="414" height="350"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="350" id="HE3-EN-eie"/>
+                                </constraints>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="LG9-Mj-2X0">
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="LG9-Mj-2X0" id="J64-6R-0cL">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="OaQ-Ec-bah"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -45,7 +55,7 @@
                             <constraint firstItem="qsq-ET-fwH" firstAttribute="centerY" secondItem="Eh2-nM-O4H" secondAttribute="centerY" id="7U5-Mp-vc7"/>
                             <constraint firstItem="eeR-X8-fEr" firstAttribute="leading" secondItem="OaQ-Ec-bah" secondAttribute="leading" id="DrV-Qm-mAq"/>
                             <constraint firstItem="qsq-ET-fwH" firstAttribute="centerX" secondItem="Eh2-nM-O4H" secondAttribute="centerX" id="KgI-Za-7dF"/>
-                            <constraint firstItem="eeR-X8-fEr" firstAttribute="bottom" secondItem="OaQ-Ec-bah" secondAttribute="bottom" id="Pyq-9S-DPn"/>
+                            <constraint firstItem="eeR-X8-fEr" firstAttribute="top" secondItem="OaQ-Ec-bah" secondAttribute="top" constant="80" id="cXb-EN-jLy"/>
                             <constraint firstItem="eeR-X8-fEr" firstAttribute="trailing" secondItem="OaQ-Ec-bah" secondAttribute="trailing" id="eeD-7C-7H8"/>
                         </constraints>
                     </view>

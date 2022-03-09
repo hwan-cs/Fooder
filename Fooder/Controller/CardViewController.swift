@@ -8,14 +8,12 @@
 import UIKit
 import GooglePlaces
 import VerticalCardSwiper
-import CoreLocation
 
-class CardViewController: UIViewController, VerticalCardSwiperDatasource, VerticalCardSwiperDelegate, CLLocationManagerDelegate
+class CardViewController: UIViewController, VerticalCardSwiperDatasource, VerticalCardSwiperDelegate
 {
     var selectedCell: MyVerticalCardSwiper?
     
-    var locationManager: CLLocationManager?
-    private var placesClient: GMSPlacesClient!
+    var location: CLLocation?
     
     let placesURL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?language=ko"
     
@@ -36,15 +34,9 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
         cardSwiper.isSideSwipingEnabled = false
         cardSwiper.register(nib: UINib(nibName: K.cardSwiperNibName, bundle: nil), forCellWithReuseIdentifier: K.cardSwiperNibName)
         
-        locationManager = CLLocationManager()
-        locationManager?.delegate = self
-        locationManager?.requestAlwaysAuthorization()
         
-        placesClient = GMSPlacesClient.shared()
-        
-        let currentLocation = locationManager?.location
-        let urlString = "\(placesURL)&location=\(currentLocation!.coordinate.latitude),\(currentLocation!.coordinate.longitude)&radius=1000&type=restaurant&keyword=food&key=\(K.placesAPIKey)"
-        fetchNearbyRestaurants(urlString, currentLocation!) { success in
+        let urlString = "\(placesURL)&location=\(location!.coordinate.latitude),\(location!.coordinate.longitude)&radius=1000&type=restaurant&keyword=food&key=\(K.placesAPIKey)"
+        fetchNearbyRestaurants(urlString, location!) { success in
             if success == true
             {
                 print(self.placesName.count)
@@ -56,11 +48,6 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
                 }
             }
         }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool)
-    {
-        locationManager?.stopUpdatingLocation()
     }
     
     func fetchNearbyRestaurants(_ url: String, _ location: CLLocation, completion: @escaping (_ success: Bool) -> Void)
@@ -174,23 +161,6 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
         }
 //        updateStatusBar(visible: false)
         present(detailVC, animated: true, completion: nil)
-    }
-    
-    //MARK: - CLLocationManager Delegate Methods
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager)
-    {
-        if manager.authorizationStatus == .authorizedAlways || manager.authorizationStatus == .authorizedWhenInUse
-        {
-            locationManager?.startUpdatingLocation()
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
-    {
-        if let location = locations.last
-        {
-//            print("New location is \(locations)")
-        }
     }
 }
 

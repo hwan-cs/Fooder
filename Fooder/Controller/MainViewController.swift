@@ -66,7 +66,7 @@ class MainViewController: UIViewController, CLLocationManagerDelegate
         locationManager = CLLocationManager()
         locationManager?.delegate = self
         locationManager?.requestAlwaysAuthorization()
-        
+
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
@@ -95,7 +95,7 @@ class MainViewController: UIViewController, CLLocationManagerDelegate
             window.rootViewController = vc
             DispatchQueue.main.async
             {
-                UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil)
+                UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve, animations: nil)
                 { success in
                     if success
                     {
@@ -171,7 +171,7 @@ extension MainViewController: GMSAutocompleteTableDataSourceDelegate
             window.rootViewController = vc
             DispatchQueue.main.async
             {
-                UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil)
+                UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve, animations: nil)
                 { success in
                     if success
                     {

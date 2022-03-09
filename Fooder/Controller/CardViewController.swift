@@ -34,9 +34,9 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
         cardSwiper.isSideSwipingEnabled = false
         cardSwiper.register(nib: UINib(nibName: K.cardSwiperNibName, bundle: nil), forCellWithReuseIdentifier: K.cardSwiperNibName)
         
-        
-        let urlString = "\(placesURL)&location=\(location!.coordinate.latitude),\(location!.coordinate.longitude)&radius=1000&type=restaurant&keyword=food&key=\(K.placesAPIKey)"
-        fetchNearbyRestaurants(urlString, location!) { success in
+        print("viewduidload")
+        let urlString = "\(placesURL)&location=\(location!.coordinate.latitude),\(location!.coordinate.longitude)&radius=2500&type=restaurant&keyword=food&key=\(K.placesAPIKey)"
+        fetchNearbyRestaurants(urlString, location!, false) { success in
             if success == true
             {
                 print(self.placesName.count)
@@ -50,7 +50,7 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
         }
     }
     
-    func fetchNearbyRestaurants(_ url: String, _ location: CLLocation, completion: @escaping (_ success: Bool) -> Void)
+    func fetchNearbyRestaurants(_ url: String, _ location: CLLocation, _ repeating: Bool, completion: @escaping (_ success: Bool) -> Void)
     {
         print("URL is: \(url)")
         if let url = URL(string: url)
@@ -70,37 +70,43 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
                     let placesList = self.parseJSON(placesData: safeData)!
                     for place in placesList.results
                     {
-                        self.placesName.append(place.name)
-                        self.placesVicinity.append(place.vicinity)
-                        self.placesID.append(place.place_id)
-                        print(place.name)
-                        if place.photos != nil
+                        if place.rating != 0
                         {
-                            self.photoReference.append(place.photos![0].photo_reference)
+                            self.placesName.append(place.name)
+                            self.placesVicinity.append(place.vicinity)
+                            self.placesID.append(place.place_id)
+                            print(place.name)
+                            if place.photos != nil
+                            {
+                                self.photoReference.append(place.photos![0].photo_reference)
+                            }
+                            else
+                            {
+                                self.photoReference.append("nil")
+                            }
                         }
-                        else
-                        {
-                            self.photoReference.append("nil")
-                        }
-                        if place.place_id == placesList.results[placesList.results.endIndex-1].place_id
+                        print(place.place_id)
+                        print(placesList.results.last!.place_id)
+                        if place.place_id == placesList.results.last!.place_id
                         {
                             if placesList.next_page_token != nil
                             {
-//                                print(placesList.next_page_token)
-//                                let urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?pagetoken=\(placesList.next_page_token!)&key=\(K.placesAPIKey)"
-//                                DispatchQueue.main.asyncAfter(deadline: .now()+2)
-//                                {
-//                                    self.fetchNearbyRestaurants(urlString, location) { success in
-//                                        if success == true
-//                                        {
-//                                            DispatchQueue.main.async
-//                                            {
-//                                                self.cardSwiper.reloadData()
-//                                            }
-//                                            return
-//                                        }
-//                                    }
-//                                }
+                                print(placesList.next_page_token)
+                                let urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?pagetoken=\(placesList.next_page_token!)&key=\(K.placesAPIKey)"
+                                DispatchQueue.main.asyncAfter(deadline: .now()+2.5)
+                                {
+                                    self.fetchNearbyRestaurants(urlString, location, true) { success in
+                                        if success == true
+                                        {
+                                            DispatchQueue.main.async
+                                            {
+                                                print(self.placesName.count)
+                                                self.cardSwiper.reloadData()
+                                            }
+                                            return
+                                        }
+                                    }
+                                }
                             }
                             completion(true)
                             return
@@ -128,6 +134,7 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
             return nil
         }
     }
+    
     //MARK: - VerticalCardSwiper DataSource Methods
     func cardForItemAt(verticalCardSwiperView: VerticalCardSwiperView, cardForItemAt index: Int) -> CardCell
     {

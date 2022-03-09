@@ -19,6 +19,7 @@ struct Place: Codable
     let place_id: String
     let reference: String
     let vicinity: String
+    let rating: Double
     let photos: [Photo]?
 }
 

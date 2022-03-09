@@ -29,6 +29,17 @@ class DetailScrollView: UIScrollView
                 {
                     self.setupUI()
                 }
+                if self.detail?.result.photos == nil
+                {
+                    self.requestAPINaver(query: (self.detail?.result.name)!)
+                    { link in
+                        print((self.detail?.result.name)!)
+                        if link != nil
+                        {
+                            self.imageView.setImageUrl(link!)
+                        }
+                    }
+                }
             }
         }
     }
@@ -141,6 +152,55 @@ class DetailScrollView: UIScrollView
         catch let error
         {
             print(String(describing: error))
+            return nil
+        }
+    }
+    
+    func requestAPINaver(query: String, completion: @escaping (String?)-> Void)
+    {
+        let stringURL = "https://openapi.naver.com/v1/search/image?query=\(query)&display=10"
+        let encodedQuery: String = stringURL.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!
+        if let url = URL(string: encodedQuery)
+        {
+            var requestURL = URLRequest(url: url)
+            requestURL.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            requestURL.addValue(K.naverClientID, forHTTPHeaderField: "X-Naver-Client-Id")
+            requestURL.addValue(K.naverClientKey, forHTTPHeaderField: "X-Naver-Client-Secret")
+            print(requestURL)
+            let session = URLSession(configuration: .default)
+            let task = session.dataTask(with: requestURL)
+            { (data, response, error) in
+                if error != nil
+                {
+                    print(error?.localizedDescription)
+                    return
+                }
+                if let safeData = data
+                {
+                    if let searchResult = self.parseNaverJSON(safeData)
+                    {
+                        let link = searchResult.items.randomElement()?.link
+                        completion(link)
+                        return
+                   }
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    func parseNaverJSON(_ searchResult: Data) -> NaverImgSearchResult?
+    {
+        let decoder = JSONDecoder()
+        do
+        {
+            let results = try decoder.decode(NaverImgSearchResult.self, from: searchResult)
+            
+            return results
+        }
+        catch let error
+        {
+            print(error.localizedDescription)
             return nil
         }
     }

@@ -31,12 +31,16 @@ class DetailScrollView: UIScrollView
                 }
                 if self.detail?.result.photos == nil
                 {
+                    print("photo is nil")
                     self.requestAPINaver(query: (self.detail?.result.name)!)
                     { link in
                         print((self.detail?.result.name)!)
                         if link != nil
                         {
-                            self.imageView.setImageUrl(link!)
+                            DispatchQueue.main.async
+                            {
+                                self.imageView.setImageUrl(link!)
+                            }
                         }
                     }
                 }

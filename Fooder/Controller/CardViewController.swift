@@ -24,6 +24,7 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
     
     @IBOutlet var cardSwiper: VerticalCardSwiper!
     
+    let dispatchGroup = DispatchGroup()
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -36,11 +37,12 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
         
         print("viewduidload")
         let urlString = "\(placesURL)&location=\(location!.coordinate.latitude),\(location!.coordinate.longitude)&radius=2500&type=restaurant&keyword=food&key=\(K.placesAPIKey)"
+        dispatchGroup.enter()
         fetchNearbyRestaurants(urlString, location!, false) { success in
             if success == true
             {
-                print(self.placesName.count)
-                print(self.photoReference.count)
+                print("PlacesName: \(self.placesName.count)")
+                print("PhotoReference: \(self.photoReference.count)")
                 self.cardSwiper.datasource = self
                 DispatchQueue.main.async
                 {
@@ -48,10 +50,16 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
                 }
             }
         }
+        dispatchGroup.notify(queue: .main)
+        {
+            //stop loading animation
+            print("Done Loading")
+        }
     }
     
     func fetchNearbyRestaurants(_ url: String, _ location: CLLocation, _ repeating: Bool, completion: @escaping (_ success: Bool) -> Void)
     {
+        dispatchGroup.enter()
         print("URL is: \(url)")
         if let url = URL(string: url)
         {
@@ -103,10 +111,15 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
                                                 print(self.placesName.count)
                                                 self.cardSwiper.reloadData()
                                             }
+                                            self.dispatchGroup.leave()
                                             return
                                         }
                                     }
                                 }
+                            }
+                            DispatchQueue.main.asyncAfter(deadline: .now()+3.0)
+                            {
+                                self.dispatchGroup.leave()
                             }
                             completion(true)
                             return

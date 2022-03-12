@@ -1,20 +1,24 @@
 PODS:
   - GooglePlaces (6.0.0)
+  - SwiftSpinner (2.2.0)
   - VerticalCardSwiper (2.3.1)
 
 DEPENDENCIES:
   - GooglePlaces
+  - SwiftSpinner
   - VerticalCardSwiper
 
 SPEC REPOS:
   trunk:
     - GooglePlaces
+    - SwiftSpinner
     - VerticalCardSwiper
 
 SPEC CHECKSUMS:
   GooglePlaces: c97d96ae68594acb64035c9ca9f26fbfc1d23af1
+  SwiftSpinner: f9b59477fe107427f2b5b835497d6636fa167ede
   VerticalCardSwiper: 68df635b354500f86934ea044ade37a264c044c6
 
-PODFILE CHECKSUM: 7c48885bc3341422153adf7d071b83dfd1f98e8d
+PODFILE CHECKSUM: 9c9cbc455bc2e26f92f21229e1a120cbf7e520e2
 
 COCOAPODS: 1.10.1

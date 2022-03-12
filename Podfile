@@ -8,4 +8,5 @@ target 'Fooder' do
   # Pods for Fooder
   pod 'VerticalCardSwiper'
   pod 'GooglePlaces'
+  pod 'SwiftSpinner'
 end

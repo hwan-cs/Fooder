@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftSpinner
 
 class DetailScrollView: UIScrollView
 {
@@ -31,7 +32,10 @@ class DetailScrollView: UIScrollView
                 }
                 if self.detail?.result.photos == nil
                 {
-                    print("photo is nil")
+                    DispatchQueue.main.async
+                    {
+                        SwiftSpinner.show("사진을 불러오는 중 입니다...")
+                    }
                     self.requestAPINaver(query: (self.detail?.result.name)!)
                     { link in
                         print((self.detail?.result.name)!)
@@ -40,6 +44,16 @@ class DetailScrollView: UIScrollView
                             DispatchQueue.main.async
                             {
                                 self.imageView.setImageUrl(link!)
+                                SwiftSpinner.hide()
+                            }
+                        }
+                        else
+                        {
+                            DispatchQueue.main.async
+                            {
+                                SwiftSpinner.show(duration: 1.5, title: "사진을 불러오기 실패 했습니다!", animated:  false) {
+                                    SwiftSpinner.hide()
+                                }
                             }
                         }
                     }

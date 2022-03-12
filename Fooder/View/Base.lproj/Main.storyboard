@@ -68,7 +68,7 @@
             </objects>
             <point key="canvasLocation" x="1028.985507246377" y="97.767857142857139"/>
         </scene>
-        <!--Item-->
+        <!--Card View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController storyboardIdentifier="CardViewController" id="BYZ-38-t0r" customClass="CardViewController" customModule="Fooder" customModuleProvider="target" sceneMemberID="viewController">
@@ -76,28 +76,41 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ecF-jP-Fw7">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="barTintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <items>
+                                    <navigationItem title="Title" id="p7C-CN-SCX"/>
+                                </items>
+                            </navigationBar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oUF-U3-yBy" customClass="VerticalCardSwiper" customModule="VerticalCardSwiper">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="oUF-U3-yBy" firstAttribute="top" secondItem="ecF-jP-Fw7" secondAttribute="bottom" id="9Gv-HK-Taq"/>
+                            <constraint firstItem="ecF-jP-Fw7" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Iwo-F9-RsP"/>
+                            <constraint firstItem="ecF-jP-Fw7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="MFv-by-XIZ"/>
                             <constraint firstItem="oUF-U3-yBy" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="SUh-qa-iNe"/>
-                            <constraint firstItem="oUF-U3-yBy" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Uy6-Wj-wZZ"/>
+                            <constraint firstItem="ecF-jP-Fw7" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Sso-gB-uNE"/>
+                            <constraint firstItem="oUF-U3-yBy" firstAttribute="top" secondItem="ecF-jP-Fw7" secondAttribute="bottom" id="e0f-Od-CiL"/>
                             <constraint firstItem="oUF-U3-yBy" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="toG-f8-Rdd"/>
                             <constraint firstItem="oUF-U3-yBy" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="x0W-cc-aqr"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="iks-gE-8yz"/>
+                    <navigationItem key="navigationItem" id="gfG-Uj-4q4"/>
                     <connections>
                         <outlet property="cardSwiper" destination="oUF-U3-yBy" id="AsT-YE-HHv"/>
+                        <outlet property="navigationBar" destination="ecF-jP-Fw7" id="nwf-zH-IVi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1952.1739130434785" y="97.767857142857139"/>
+            <point key="canvasLocation" x="2085.507246376812" y="97.767857142857139"/>
         </scene>
     </scenes>
     <resources>

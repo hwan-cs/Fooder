@@ -176,7 +176,7 @@ class DetailScrollView: UIScrollView
     
     func requestAPINaver(query: String, completion: @escaping (String?)-> Void)
     {
-        let stringURL = "https://openapi.naver.com/v1/search/image?query=\(query)&display=10"
+        let stringURL = "https://openapi.naver.com/v1/search/image?query=\(query)&display=10&sort=comment"
         let encodedQuery: String = stringURL.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!
         if let url = URL(string: encodedQuery)
         {

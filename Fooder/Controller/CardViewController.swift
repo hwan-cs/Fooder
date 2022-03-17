@@ -58,7 +58,7 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
             //stop loading animation
             self.lookUpCurrentLocation(self.location!)
             { placemark in
-                self.navigationBar.topItem?.title = placemark?.name!
+                self.navigationBar.topItem?.title = "주소: \((placemark?.name)!)"
                 self.navigationBar.setBackgroundImage(UIImage(), for: .default)
                 self.navigationBar.shadowImage = UIImage()
                 self.navigationBar.isTranslucent = true
@@ -179,6 +179,10 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
         })
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle
+    {
+        return .lightContent
+    }
     
     //MARK: - VerticalCardSwiper DataSource Methods
     func cardForItemAt(verticalCardSwiperView: VerticalCardSwiperView, cardForItemAt index: Int) -> CardCell

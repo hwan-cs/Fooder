@@ -12,7 +12,7 @@
         <!--Main View Controller-->
         <scene sceneID="hkg-bn-fKQ">
             <objects>
-                <viewController id="OxC-eX-gjP" customClass="MainViewController" customModule="Fooder" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainViewController" id="OxC-eX-gjP" customClass="MainViewController" customModule="Fooder" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Eh2-nM-O4H">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -81,31 +81,56 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="barTintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <items>
-                                    <navigationItem title="Title" id="p7C-CN-SCX"/>
+                                    <navigationItem title="Title" id="Pm2-4w-YrB"/>
                                 </items>
                             </navigationBar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oUF-U3-yBy" customClass="VerticalCardSwiper" customModule="VerticalCardSwiper">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="689"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cId-Sy-yIf">
+                                <rect key="frame" x="20" y="797" width="374" height="65"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="65" id="6uS-wj-rtg"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Button">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="저장하기">
+                                            <attributes>
+                                                <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <font key="NSFont" size="19" name=".AppleSDGothicNeoI-Bold"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                </state>
+                                <connections>
+                                    <action selector="didTapSave:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CDh-vr-GnX"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="cId-Sy-yIf" firstAttribute="top" secondItem="oUF-U3-yBy" secondAttribute="bottom" constant="20" id="47v-kG-lF3"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="cId-Sy-yIf" secondAttribute="trailing" constant="20" id="6Re-o8-b01"/>
                             <constraint firstItem="oUF-U3-yBy" firstAttribute="top" secondItem="ecF-jP-Fw7" secondAttribute="bottom" id="9Gv-HK-Taq"/>
+                            <constraint firstItem="cId-Sy-yIf" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="BD7-6L-ncL"/>
                             <constraint firstItem="ecF-jP-Fw7" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Iwo-F9-RsP"/>
                             <constraint firstItem="ecF-jP-Fw7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="MFv-by-XIZ"/>
+                            <constraint firstItem="cId-Sy-yIf" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="QlU-Z2-eQ6"/>
                             <constraint firstItem="oUF-U3-yBy" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="SUh-qa-iNe"/>
                             <constraint firstItem="ecF-jP-Fw7" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Sso-gB-uNE"/>
                             <constraint firstItem="oUF-U3-yBy" firstAttribute="top" secondItem="ecF-jP-Fw7" secondAttribute="bottom" id="e0f-Od-CiL"/>
+                            <constraint firstItem="cId-Sy-yIf" firstAttribute="top" secondItem="oUF-U3-yBy" secondAttribute="bottom" constant="20" id="jGo-a7-hbP"/>
                             <constraint firstItem="oUF-U3-yBy" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="toG-f8-Rdd"/>
-                            <constraint firstItem="oUF-U3-yBy" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="x0W-cc-aqr"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="gfG-Uj-4q4"/>
                     <connections>
                         <outlet property="cardSwiper" destination="oUF-U3-yBy" id="AsT-YE-HHv"/>
                         <outlet property="navigationBar" destination="ecF-jP-Fw7" id="nwf-zH-IVi"/>
+                        <outlet property="saveButton" destination="cId-Sy-yIf" id="4Zy-L7-M5n"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

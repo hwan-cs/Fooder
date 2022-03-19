@@ -27,18 +27,23 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
     
     @IBOutlet var navigationBar: UINavigationBar!
     
+    @IBOutlet var saveButton: UIButton!
+    
     let dispatchGroup = DispatchGroup()
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
+        print("viewdidload")
         view.backgroundColor = K.bgColor
         cardSwiper.backgroundColor = K.bgColor
         cardSwiper.delegate = self
         cardSwiper.isSideSwipingEnabled = false
         cardSwiper.register(nib: UINib(nibName: K.cardSwiperNibName, bundle: nil), forCellWithReuseIdentifier: K.cardSwiperNibName)
         
-        SwiftSpinner.show("주변 식당을 불러오는 중 입니다...")
+        DispatchQueue.main.async
+        {
+            SwiftSpinner.show("주변 식당을 불러오는 중 입니다...")
+        }
         let urlString = "\(placesURL)&location=\(location!.coordinate.latitude),\(location!.coordinate.longitude)&radius=2500&type=restaurant&keyword=food&key=\(K.placesAPIKey)"
         dispatchGroup.enter()
         fetchNearbyRestaurants(urlString, location!, false) { success in
@@ -66,6 +71,14 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
             }
             SwiftSpinner.hide()
         }
+
+        saveButton.backgroundColor = .white
+        saveButton.layer.cornerRadius = 20
+        saveButton.layer.shadowColor = UIColor.white.cgColor
+        saveButton.layer.shadowRadius = 12
+        saveButton.layer.shadowOpacity = 0.3
+        saveButton.setTitle("저장하기", for: .normal)
+        saveButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
     }
     
     func fetchNearbyRestaurants(_ url: String, _ location: CLLocation, _ repeating: Bool, completion: @escaping (_ success: Bool) -> Void)
@@ -106,36 +119,34 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
                         }
                         print(place.place_id)
                         print(placesList.results.last!.place_id)
-                        if place.place_id == placesList.results.last!.place_id
+                    }
+                    if placesList.next_page_token != nil
+                    {
+                        print(placesList.next_page_token)
+                        let urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?pagetoken=\(placesList.next_page_token!)&key=\(K.placesAPIKey)"
+                        DispatchQueue.main.asyncAfter(deadline: .now()+3.0)
                         {
-                            if placesList.next_page_token != nil
-                            {
-                                print(placesList.next_page_token)
-                                let urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?pagetoken=\(placesList.next_page_token!)&key=\(K.placesAPIKey)"
-                                DispatchQueue.main.asyncAfter(deadline: .now()+3.0)
+                            self.fetchNearbyRestaurants(urlString, location, true) { success in
+                                if success == true
                                 {
-                                    self.fetchNearbyRestaurants(urlString, location, true) { success in
-                                        if success == true
-                                        {
-                                            DispatchQueue.main.async
-                                            {
-                                                print(self.placesName.count)
-                                                self.cardSwiper.reloadData()
-                                            }
-                                            self.dispatchGroup.leave()
-                                            return
-                                        }
+                                    DispatchQueue.main.async
+                                    {
+                                        print(self.placesName.count)
+                                        self.cardSwiper.reloadData()
                                     }
+                                    self.dispatchGroup.leave()
+                                    return
                                 }
                             }
-                            DispatchQueue.main.asyncAfter(deadline: .now()+3.5)
-                            {
-                                self.dispatchGroup.leave()
-                            }
-                            completion(true)
-                            return
                         }
                     }
+                    DispatchQueue.main.asyncAfter(deadline: .now()+3.5)
+                    {
+                        self.dispatchGroup.leave()
+                    }
+                    completion(true)
+                    return
+
                 }
             }
             //4. start the task
@@ -177,6 +188,12 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
                 completionHandler(nil)
             }
         })
+    }
+    
+    @IBAction func didTapSave(_ sender: UIButton)
+    {
+        print("didtapsave")
+        self.dismiss(animated: true, completion: nil)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle

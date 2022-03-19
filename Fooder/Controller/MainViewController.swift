@@ -91,26 +91,13 @@ class MainViewController: UIViewController, CLLocationManagerDelegate
         if let currLoc = locationManager?.location
         {
             vc.location = currLoc
-            let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-            if let window = scene?.windows.first
-            {
-                window.rootViewController = vc
-                DispatchQueue.main.async
-                {
-                    UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve, animations: nil)
-                    { success in
-                        if success
-                        {
-                            return
-                        }
-                    }
-                }
-            }
+            vc.modalPresentationStyle = .fullScreen
         }
         else
         {
             print("No location was available")
         }
+        self.present(vc,animated: true)
     }
     
     override func viewWillDisappear(_ animated: Bool)
@@ -173,21 +160,8 @@ extension MainViewController: GMSAutocompleteTableDataSourceDelegate
         let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "CardViewController") as! CardViewController
         vc.location = selectedLocation
         vc.navigationController?.title = place.name
-        let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-        if let window = scene?.windows.first
-        {
-            window.rootViewController = vc
-            DispatchQueue.main.async
-            {
-                UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve, animations: nil)
-                { success in
-                    if success
-                    {
-                        return
-                    }
-                }
-            }
-        }
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc,animated: true)
     }
     
     func tableDataSource(_ tableDataSource: GMSAutocompleteTableDataSource, didFailAutocompleteWithError error: Error)

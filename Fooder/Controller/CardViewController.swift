@@ -16,6 +16,8 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
     
     var location: CLLocation?
     
+    var navBarTitle: String?
+    
     let placesURL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?language=ko"
     
     var placesName = [String]()
@@ -40,15 +42,12 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
         cardSwiper.isSideSwipingEnabled = false
         cardSwiper.register(nib: UINib(nibName: K.cardSwiperNibName, bundle: nil), forCellWithReuseIdentifier: K.cardSwiperNibName)
         
-        DispatchQueue.main.async
-        {
-            SwiftSpinner.show("주변 식당을 불러오는 중 입니다...")
-        }
         let urlString = "\(placesURL)&location=\(location!.coordinate.latitude),\(location!.coordinate.longitude)&radius=2500&type=restaurant&keyword=food&key=\(K.placesAPIKey)"
         dispatchGroup.enter()
         fetchNearbyRestaurants(urlString, location!, false) { success in
             if success == true
             {
+                self.dispatchGroup.leave()
                 print("PlacesName: \(self.placesName.count)")
                 print("PhotoReference: \(self.photoReference.count)")
                 self.cardSwiper.datasource = self
@@ -60,18 +59,28 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
         }
         dispatchGroup.notify(queue: .main)
         {
-            //stop loading animation
-            self.lookUpCurrentLocation(self.location!)
-            { placemark in
-                self.navigationBar.topItem?.title = "주소: \((placemark?.name)!)"
-                self.navigationBar.setBackgroundImage(UIImage(), for: .default)
-                self.navigationBar.shadowImage = UIImage()
-                self.navigationBar.isTranslucent = true
-                self.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: K.mainBgColor , .font: UIFont.systemFont(ofSize: 20.0, weight: .medium)]
+            if self.navBarTitle == nil
+            {
+                self.lookUpCurrentLocation(self.location!)
+                { placemark in
+                    self.navigationBar.topItem?.title = "주소: \((placemark?.name)!)"
+                }
             }
+            else
+            {
+                self.navigationBar.topItem?.title = self.navBarTitle
+            }
+            self.navigationBar.isHidden = false
+            self.navigationBar.setBackgroundImage(UIImage(), for: .default)
+            self.navigationBar.shadowImage = UIImage()
+            self.navigationBar.isTranslucent = true
+            self.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: K.mainBgColor , .font: UIFont.systemFont(ofSize: 20.0, weight: .medium)]
+
+            //stop loading animation
+            K.globalFlag = true
             SwiftSpinner.hide()
         }
-
+        
         saveButton.backgroundColor = .white
         saveButton.layer.cornerRadius = 20
         saveButton.layer.shadowColor = UIColor.white.cgColor
@@ -79,6 +88,18 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
         saveButton.layer.shadowOpacity = 0.3
         saveButton.setTitle("저장하기", for: .normal)
         saveButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool)
+    {
+        if !K.globalFlag
+        {
+            DispatchQueue.main.async
+            {
+                SwiftSpinner.show("주변 식당을 불러오는 중 입니다...")
+            }
+        }
     }
     
     func fetchNearbyRestaurants(_ url: String, _ location: CLLocation, _ repeating: Bool, completion: @escaping (_ success: Bool) -> Void)
@@ -117,14 +138,12 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
                                 self.photoReference.append("nil")
                             }
                         }
-                        print(place.place_id)
-                        print(placesList.results.last!.place_id)
                     }
                     if placesList.next_page_token != nil
                     {
-                        print(placesList.next_page_token)
                         let urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?pagetoken=\(placesList.next_page_token!)&key=\(K.placesAPIKey)"
-                        DispatchQueue.main.asyncAfter(deadline: .now()+3.0)
+                        self.dispatchGroup.leave()
+                        DispatchQueue.main.asyncAfter(deadline: .now()+3.5)
                         {
                             self.fetchNearbyRestaurants(urlString, location, true) { success in
                                 if success == true
@@ -134,19 +153,21 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
                                         print(self.placesName.count)
                                         self.cardSwiper.reloadData()
                                     }
-                                    self.dispatchGroup.leave()
+                                    completion(true)
                                     return
                                 }
                             }
                         }
                     }
-                    DispatchQueue.main.asyncAfter(deadline: .now()+3.5)
+                    else
                     {
-                        self.dispatchGroup.leave()
+                        DispatchQueue.main.asyncAfter(deadline: .now()+3.7)
+                        {
+                            self.dispatchGroup.leave()
+                        }
+                        completion(true)
+                        return
                     }
-                    completion(true)
-                    return
-
                 }
             }
             //4. start the task
@@ -192,7 +213,6 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
     
     @IBAction func didTapSave(_ sender: UIButton)
     {
-        print("didtapsave")
         self.dismiss(animated: true, completion: nil)
     }
     

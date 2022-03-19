@@ -7,6 +7,7 @@
 
 import UIKit
 import VerticalCardSwiper
+import SwiftSpinner
 
 class MyVerticalCardSwiper: CardCell
 {
@@ -119,6 +120,7 @@ extension UIImageView
                         {
                             ImageCacheManager.shared.setObject(image, forKey: cacheKey) // 다운로드된 이미지를 캐시에 저장
                             self.image = image
+                            SwiftSpinner.hide()
                         }
                     }
                 }.resume()

@@ -44,7 +44,6 @@ class DetailScrollView: UIScrollView
                             DispatchQueue.main.async
                             {
                                 self.imageView.setImageUrl(link!)
-                                SwiftSpinner.hide()
                             }
                         }
                         else

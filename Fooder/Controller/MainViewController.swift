@@ -92,6 +92,7 @@ class MainViewController: UIViewController, CLLocationManagerDelegate
         {
             vc.location = currLoc
             vc.modalPresentationStyle = .fullScreen
+            K.globalFlag = false
         }
         else
         {
@@ -159,8 +160,9 @@ extension MainViewController: GMSAutocompleteTableDataSourceDelegate
         let selectedLocation = CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
         let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "CardViewController") as! CardViewController
         vc.location = selectedLocation
-        vc.navigationController?.title = place.name
+        vc.navBarTitle = place.name
         vc.modalPresentationStyle = .fullScreen
+        K.globalFlag = false
         self.present(vc,animated: true)
     }
     

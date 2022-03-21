@@ -12,16 +12,21 @@ class DetailScrollView: UIScrollView
 {
     let bgBackView = UIView()
     let imageView = UIImageView()
+    var naverImages = [String]()
     let textView = UITextView()
+    var transition = CATransition()
     
     var placeID: String
     var detail: PlaceDetail?
+    
+    let pageControl = UIPageControl(frame: CGRect(x: 0, y: 460, width: UIScreen.main.bounds.size.width, height: 40))
     
     init(frame: CGRect, id: String)
     {
         self.placeID = id
         print(self.placeID)
         super.init(frame: frame)
+        isMultipleTouchEnabled = true
         fetchPlaceDetails(placeID)
         { success in
             if success == true
@@ -39,11 +44,21 @@ class DetailScrollView: UIScrollView
                     self.requestAPINaver(query: (self.detail?.result.name)!)
                     { link in
                         print((self.detail?.result.name)!)
-                        if link != nil
+                        if link?.count != 0
                         {
+                            SwiftSpinner.hide()
                             DispatchQueue.main.async
                             {
-                                self.imageView.setImageUrl(link!)
+                                let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.getSwipeAction(_:)))
+                                swipeLeft.direction = UISwipeGestureRecognizer.Direction.left
+                                let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.getSwipeAction(_:)))
+                                swipeRight.direction = UISwipeGestureRecognizer.Direction.right
+                                
+                                self.imageView.addGestureRecognizer(swipeLeft)
+                                self.imageView.addGestureRecognizer(swipeRight)
+                                self.pageControl.numberOfPages = self.naverImages.count
+                                self.imageView.addSubview(self.pageControl)
+                                self.imageView.setImageUrl(self.naverImages[self.pageControl.currentPage])
                             }
                         }
                         else
@@ -68,7 +83,7 @@ class DetailScrollView: UIScrollView
     
     private func setupUI()
     {
-        backgroundColor = K.detailBgColor
+        backgroundColor = K.bgColor
         bgBackView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 500)
         bgBackView.layer.masksToBounds = true
         
@@ -76,20 +91,11 @@ class DetailScrollView: UIScrollView
         imageView.isUserInteractionEnabled = true
         imageView.contentMode = .scaleAspectFill
         
-        let textViewWidth = UIScreen.main.bounds.size.width - 2 * textViewLeftMargin
-        let font = UIFont.boldSystemFont(ofSize: 18)
-        let textHeight = textViewText.calculateHeightWith(width: textViewWidth, font: font)
-        textView.frame = CGRect(x: textViewLeftMargin, y: bgBackView.frame.height + textViewTopMargin, width: textViewWidth, height: textHeight + textViewBottomMargin)
-        textView.font = font
-        textView.textColor = .black
-        textView.isUserInteractionEnabled = false
-        textView.backgroundColor = K.detailBgColor
+        pageControl.currentPageIndicatorTintColor = UIColor.black
+        pageControl.pageIndicatorTintColor = UIColor.lightGray.withAlphaComponent(0.8)
         
         bgBackView.addSubview(imageView)
         addSubview(bgBackView)
-        addSubview(textView)
-        
-        contentSize = CGSize(width: UIScreen.main.bounds.size.width, height: bgBackView.frame.height + textViewTopMargin + textView.frame.height + 150)
         
         textViewText = ""
         if let photos = self.detail?.result.photos
@@ -124,6 +130,24 @@ class DetailScrollView: UIScrollView
         }
         
         textView.text = textViewText
+        
+        let textViewWidth = UIScreen.main.bounds.size.width - 2 * textViewLeftMargin
+        let font = UIFont.boldSystemFont(ofSize: 18)
+        let textHeight = textViewText.calculateHeightWith(width: textViewWidth, font: font)
+        textView.frame = CGRect(x: textViewLeftMargin, y: bgBackView.frame.height + textViewTopMargin, width: textViewWidth, height: textHeight + CGFloat(textViewText.numberOfLines()*5))
+        textView.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+        textView.font = font
+        textView.textColor = .black
+        textView.isUserInteractionEnabled = false
+        textView.backgroundColor = K.detailBgColor
+        textView.layer.cornerRadius = 30
+        textView.layer.shadowColor = UIColor.white.cgColor
+        textView.clipsToBounds = false
+        textView.layer.shadowOpacity = 0.3
+        textView.layer.shadowRadius = 12
+        addSubview(textView)
+
+        contentSize = CGSize(width: UIScreen.main.bounds.size.width, height: bgBackView.frame.height + textViewTopMargin + textView.frame.height + 300)
     }
     
     private func fetchPlaceDetails(_ id: String, completion: @escaping (_ success: Bool) -> Void)
@@ -173,7 +197,7 @@ class DetailScrollView: UIScrollView
         }
     }
     
-    func requestAPINaver(query: String, completion: @escaping (String?)-> Void)
+    func requestAPINaver(query: String, completion: @escaping ([String]?)-> Void)
     {
         let stringURL = "https://openapi.naver.com/v1/search/image?query=\(query)&display=10&sort=sim"
         let encodedQuery: String = stringURL.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!
@@ -196,8 +220,22 @@ class DetailScrollView: UIScrollView
                 {
                     if let searchResult = self.parseNaverJSON(safeData)
                     {
-                        let link = searchResult.items.randomElement()?.link
-                        completion(link)
+                        if searchResult.items.count != 0
+                        {
+                            var link = searchResult.items.randomElement()?.link
+                            let size = searchResult.items.count > 2 ? 3 : searchResult.items.count
+                            for _ in 0..<size
+                            {
+                                while self.naverImages.contains(link!)
+                                {
+                                    link = searchResult.items.randomElement()?.link
+                                }
+                                print(link!)
+                                self.naverImages.append(link!)
+                            }
+                        }
+
+                        completion(self.naverImages)
                         return
                    }
                 }
@@ -221,12 +259,38 @@ class DetailScrollView: UIScrollView
             return nil
         }
     }
+    
+    @objc func getSwipeAction( _ recognizer : UISwipeGestureRecognizer)
+    {
+        if recognizer.direction == .right
+        {
+            pageControl.currentPage -= 1
+        }
+        else if recognizer.direction == .left
+        {
+            pageControl.currentPage += 1
+        }
+        animateImageView()
+        imageView.setImageUrl(naverImages[self.pageControl.currentPage])
+    }
+    
+    func animateImageView()
+    {
+        CATransaction.begin() //Begin the CATransaction
+
+        CATransaction.setAnimationDuration(0.25)
+
+        transition.type = CATransitionType.fade
+        transition.subtype = CATransitionSubtype.fromRight
+
+        imageView.layer.add(transition, forKey: kCATransition)
+        CATransaction.commit()
+    }
 }
 
 
 fileprivate let textViewLeftMargin: CGFloat = 20
 fileprivate let textViewTopMargin: CGFloat = 40
-fileprivate let textViewBottomMargin: CGFloat = 200
 fileprivate var textViewText = ""
 
 extension String
@@ -237,5 +301,15 @@ extension String
         let maxSize: CGSize = CGSize(width: width, height: CGFloat(MAXFLOAT))
         let option = NSStringDrawingOptions.usesLineFragmentOrigin
         return self.boundingRect(with: (maxSize), options: option, attributes: attr, context: nil).size.height
+    }
+    
+    func numberOfLines() -> Int
+    {
+        return self.numberOfOccurrencesOf(string: "\n") + 1
+    }
+
+    func numberOfOccurrencesOf(string: String) -> Int
+    {
+        return self.components(separatedBy:string).count - 1
     }
 }

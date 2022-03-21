@@ -42,6 +42,8 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
         cardSwiper.isSideSwipingEnabled = false
         cardSwiper.register(nib: UINib(nibName: K.cardSwiperNibName, bundle: nil), forCellWithReuseIdentifier: K.cardSwiperNibName)
         
+        self.navigationBar.topItem?.title = "위치: "
+        
         let urlString = "\(placesURL)&location=\(location!.coordinate.latitude),\(location!.coordinate.longitude)&radius=2500&type=restaurant&keyword=food&key=\(K.placesAPIKey)"
         dispatchGroup.enter()
         fetchNearbyRestaurants(urlString, location!, false) { success in
@@ -63,12 +65,12 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
             {
                 self.lookUpCurrentLocation(self.location!)
                 { placemark in
-                    self.navigationBar.topItem?.title = "주소: \((placemark?.name)!)"
+                    self.navigationBar.topItem?.title = "위치: \((placemark?.name)!)"
                 }
             }
             else
             {
-                self.navigationBar.topItem?.title = self.navBarTitle
+                self.navigationBar.topItem?.title = "위치: \(self.navBarTitle!)"
             }
             self.navigationBar.isHidden = false
             self.navigationBar.setBackgroundImage(UIImage(), for: .default)

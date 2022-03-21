@@ -37,9 +37,10 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
         super.viewDidLoad()
         print("viewdidload")
         view.backgroundColor = K.bgColor
-        cardSwiper.backgroundColor = K.bgColor
+        cardSwiper.backgroundColor = .clear
         cardSwiper.delegate = self
-        cardSwiper.isSideSwipingEnabled = false
+//        cardSwiper.isSideSwipingEnabled = true
+        
         cardSwiper.register(nib: UINib(nibName: K.cardSwiperNibName, bundle: nil), forCellWithReuseIdentifier: K.cardSwiperNibName)
         
         self.navigationBar.topItem?.title = "위치: "
@@ -66,6 +67,9 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
                 self.lookUpCurrentLocation(self.location!)
                 { placemark in
                     self.navigationBar.topItem?.title = "위치: \((placemark?.name)!)"
+                    //stop loading animation
+                    K.globalFlag = true
+                    SwiftSpinner.hide()
                 }
             }
             else
@@ -77,7 +81,7 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
             self.navigationBar.shadowImage = UIImage()
             self.navigationBar.isTranslucent = true
             self.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: K.mainBgColor , .font: UIFont.systemFont(ofSize: 20.0, weight: .medium)]
-
+            
             //stop loading animation
             K.globalFlag = true
             SwiftSpinner.hide()
@@ -256,6 +260,47 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
         }
 //        updateStatusBar(visible: false)
         present(detailVC, animated: true, completion: nil)
+    }
+    
+    func didDragCard(card: CardCell, index: Int, swipeDirection: SwipeDirection)
+    {
+        if swipeDirection == .Right
+        {
+            print("right")
+            let imgView = UIImageView(frame: CGRect(x: card.bounds.origin.x+15, y: card.bounds.height/2+100, width: 80, height: 80))
+            imgView.image = UIImage(systemName: "trash.fill")
+            imgView.tintColor = .white
+            view.addSubview(imgView)
+            self.view.sendSubviewToBack(imgView)
+        }
+        else if swipeDirection == .Left
+        {
+            print("left")
+            let imgView = UIImageView(frame: CGRect(x: card.bounds.origin.x+card.bounds.width-65, y: card.bounds.height/2+100, width: 90, height: 80))
+            imgView.image = UIImage(systemName: "suit.heart.fill")
+            imgView.tintColor = .systemPink
+            view.addSubview(imgView)
+            self.view.sendSubviewToBack(imgView)
+        }
+    }
+    
+    func didCancelSwipe(card: CardCell, index: Int)
+    {
+        //do something when swipe is cancelled
+    }
+    
+    func willSwipeCardAway(card: CardCell, index: Int, swipeDirection: SwipeDirection)
+    {
+        if swipeDirection ==  .Right
+        {
+            //delete item
+            print("delete item")
+        }
+        else if swipeDirection == .Left
+        {
+            //add to favorites
+            print("add to favorites")
+        }
     }
 }
 

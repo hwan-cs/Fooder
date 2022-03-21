@@ -66,6 +66,7 @@ class DetailCardViewController: UIViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
+
         setUI()
         getImageFromCell()
     }

@@ -60,7 +60,6 @@ class MainViewController: UIViewController, CLLocationManagerDelegate
         textFieldInsideSearchBar?.textColor = K.cardBgColor
         
         tableView.backgroundColor = K.mainBgColor
-        searchBar.alpha = 0
         tableView.alpha = 0
         
         locationManager = CLLocationManager()
@@ -104,6 +103,14 @@ class MainViewController: UIViewController, CLLocationManagerDelegate
     override func viewWillDisappear(_ animated: Bool)
     {
         locationManager?.stopUpdatingLocation()
+    }
+    
+    override func viewWillAppear(_ animated: Bool)
+    {
+        self.searchButton.alpha = 1
+        self.searchBar.alpha = 0
+        self.useCurrentLocation.alpha = 0
+        self.searchBar.frame.origin.y = 0
     }
     
     //MARK: - CLLocationManager Delegate Methods

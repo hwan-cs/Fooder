@@ -25,6 +25,20 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
     var photoReference = [String]()
     var placesVicinity = [String]()
     
+    var heartImage: UIImageView = {
+        let img = UIImageView()
+        img.image = UIImage(systemName: "suit.heart.fill")
+        img.tintColor = .systemPink
+        return img
+    }()
+    
+    var trashImage: UIImageView = {
+        let img = UIImageView()
+        img.image = UIImage(systemName: "trash.fill")
+        img.tintColor = .white
+        return img
+    }()
+    
     @IBOutlet var cardSwiper: VerticalCardSwiper!
     
     @IBOutlet var navigationBar: UINavigationBar!
@@ -32,6 +46,7 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
     @IBOutlet var saveButton: UIButton!
     
     let dispatchGroup = DispatchGroup()
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -39,6 +54,7 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
         view.backgroundColor = K.bgColor
         cardSwiper.backgroundColor = .clear
         cardSwiper.delegate = self
+        cardSwiper.stackedCardsCount = 0
 //        cardSwiper.isSideSwipingEnabled = true
         
         cardSwiper.register(nib: UINib(nibName: K.cardSwiperNibName, bundle: nil), forCellWithReuseIdentifier: K.cardSwiperNibName)
@@ -234,6 +250,15 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
             return CardCell()
         }
         cell.initCell(background: self.photoReference[index], title: self.placesName[index], subtitle: self.placesVicinity[index])
+        
+        trashImage.frame = CGRect(x: cell.bounds.origin.x+15, y: cell.bounds.height/2+100, width: 80, height: 80)
+        view.addSubview(trashImage)
+        view.sendSubviewToBack(trashImage)
+        
+        heartImage.frame = CGRect(x: cell.bounds.origin.x+cell.bounds.width-65, y: cell.bounds.height/2+100, width: 90, height: 80)
+        view.addSubview(heartImage)
+        view.sendSubviewToBack(heartImage)
+        
         if index == self.placesName.count-1
         {
             print("reached end \(self.placesName.count)")
@@ -252,6 +277,7 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
         let detailVC = DetailCardViewController(self.placesID[index])
 
         let cell = cardSwiper.cardForItem(at: index) as? MyVerticalCardSwiper
+        
         print(cell)
         selectedCell = cell
         detailVC.dismissClosure = { [weak self] in
@@ -267,40 +293,63 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
         if swipeDirection == .Right
         {
             print("right")
-            let imgView = UIImageView(frame: CGRect(x: card.bounds.origin.x+15, y: card.bounds.height/2+100, width: 80, height: 80))
-            imgView.image = UIImage(systemName: "trash.fill")
-            imgView.tintColor = .white
-            view.addSubview(imgView)
-            self.view.sendSubviewToBack(imgView)
+//            trashImage.frame = CGRect(x: card.bounds.origin.x+5, y: card.bounds.height/2+100, width: 80, height: 80)
+//            view.addSubview(trashImage)
+//            self.view.sendSubviewToBack(trashImage)
         }
         else if swipeDirection == .Left
         {
             print("left")
-            let imgView = UIImageView(frame: CGRect(x: card.bounds.origin.x+card.bounds.width-65, y: card.bounds.height/2+100, width: 90, height: 80))
-            imgView.image = UIImage(systemName: "suit.heart.fill")
-            imgView.tintColor = .systemPink
-            view.addSubview(imgView)
-            self.view.sendSubviewToBack(imgView)
+//            heartImage.frame = CGRect(x: card.bounds.origin.x+card.bounds.width-55, y: card.bounds.height/2+100, width: 90, height: 80)
+//            view.addSubview(heartImage)
+//            self.view.sendSubviewToBack(heartImage)
         }
     }
     
     func didCancelSwipe(card: CardCell, index: Int)
     {
         //do something when swipe is cancelled
+//        self.heartImage.removeFromSuperview()
+//        self.trashImage.removeFromSuperview()
     }
     
     func willSwipeCardAway(card: CardCell, index: Int, swipeDirection: SwipeDirection)
     {
         if swipeDirection ==  .Right
         {
-            //delete item
-            print("delete item")
+            //add to favorites
+            print("add to favorites")
+            if card.subviews.contains(heartImage)
+            {
+                if let removable = card.viewWithTag(index)
+                {
+                    removable.removeFromSuperview()
+                }
+            }
+            else
+            {
+                heartImage.frame = CGRect(x: card.bounds.origin.x+card.bounds.width-30, y: card.bounds.height/2+100, width: 30, height: 20)
+                heartImage.tag = index
+                card.addSubview(self.heartImage)
+            }
+            //add to favorites array
         }
         else if swipeDirection == .Left
         {
-            //add to favorites
-            print("add to favorites")
+            //delete item
+            removePlaceAtIndex(index)
+            cardSwiper.reloadData()
+            print("delete item")
+            //trash can opening animation??
         }
+    }
+    
+    func removePlaceAtIndex(_ index: Int)
+    {
+        placesName.remove(at: index)
+        placesID.remove(at: index)
+        photoReference.remove(at: index)
+        placesVicinity.remove(at: index)
     }
 }
 

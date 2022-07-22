@@ -54,6 +54,8 @@ extension MyVerticalCardSwiper
         bgView.layer.cornerRadius = 10
         bgView.clipsToBounds = true
         
+        bgView.addGradientWithColor(color: UIColor.systemPink)
+        
         backgroundImg.contentMode = .scaleAspectFill
         
         opacityView.backgroundColor = UIColor.black.withAlphaComponent(0.2)
@@ -126,5 +128,17 @@ extension UIImageView
                 }.resume()
             }
         }
+    }
+}
+
+extension UIView
+{
+    func addGradientWithColor(color: UIColor)
+    {
+        let gradient = CAGradientLayer()
+        gradient.frame = self.bounds
+        gradient.colors = [UIColor.clear.cgColor, color.cgColor]
+     
+        self.layer.insertSublayer(gradient, at: 0)
     }
 }

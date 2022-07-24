@@ -54,7 +54,7 @@ extension MyVerticalCardSwiper
         bgView.layer.cornerRadius = 10
         bgView.clipsToBounds = true
         
-        bgView.addGradientWithColor(color: UIColor.systemPink)
+//        bgView.addGradientWithColor(color: UIColor.systemPink)
         
         backgroundImg.contentMode = .scaleAspectFill
         

@@ -312,7 +312,7 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
         trashImage.removeFromSuperview()
     }
 
-    func didSwipeCardAway(card: CardCell, index: Int, swipeDirection: SwipeDirection)
+    func willSwipeCardAway(card: CardCell, index: Int, swipeDirection: SwipeDirection)
     {
         if swipeDirection ==  .Right
         {
@@ -321,25 +321,38 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
             card.layer.borderColor = UIColor.systemPink.cgColor
             card.layer.borderWidth = 5
             card.layer.cornerRadius = 10
+            self.cardSwiper.reloadData()
             //add to favorites array
         }
         else if swipeDirection == .Left
         {
             //delete item
-            removePlaceAtIndex(index)
-            cardSwiper.reloadData()
-            print("delete item")
+            removePlaceAtIndex(index) { success in
+                if success == true
+                {
+                    self.cardSwiper.reloadData()
+                    print("delete item")
+                }
+            }
             //trash can opening animation??
         }
     }
     
-    func removePlaceAtIndex(_ index: Int)
+    func didSwipeCardAway(card: CardCell, index: Int, swipeDirection: SwipeDirection)
+    {
+        self.cardSwiper.reloadData()
+    }
+    
+    func removePlaceAtIndex(_ index: Int, completion: @escaping (_ success: Bool) -> Void)
     {
         placesName.remove(at: index)
         placesID.remove(at: index)
         photoReference.remove(at: index)
         placesVicinity.remove(at: index)
         cardSwiper.deleteCards(at: [index])
+        print(index)
+        completion(true)
+        return
     }
 }
 

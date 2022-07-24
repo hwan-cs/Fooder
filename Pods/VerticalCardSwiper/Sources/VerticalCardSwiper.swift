@@ -242,6 +242,10 @@ extension VerticalCardSwiper: CardDelegate {
             {
                 swipedCard = nil
             }
+            else
+            {
+                swipedCard = cell
+            }
             self.verticalCardSwiperView.performBatchUpdates({
                 self.verticalCardSwiperView.deleteItems(at: [indexPathToRemove])
                 if direction == .Right
@@ -249,21 +253,17 @@ extension VerticalCardSwiper: CardDelegate {
                     self.verticalCardSwiperView.insertItems(at: [indexPathToRemove])
                 }
             }, completion: { [weak self] _ in
-                if direction == .Left
-                {
-                    self?.verticalCardSwiperView.collectionViewLayout.invalidateLayout()
-                    self?.verticalCardSwiperView.isUserInteractionEnabled = true
-                    self?.delegate?.didSwipeCardAway?(card: cell, index: indexPathToRemove.row, swipeDirection: direction)
-                    self?.isCardRemovalAllowed = true
-                }
-                else
+                self?.verticalCardSwiperView.collectionViewLayout.invalidateLayout()
+                self?.verticalCardSwiperView.isUserInteractionEnabled = true
+                self?.delegate?.didSwipeCardAway?(card: cell, index: indexPathToRemove.row, swipeDirection: direction)
+                self?.isCardRemovalAllowed = true
+                if direction == .Right
                 {
                     self?.swipedCard.resetToCenterPosition()
-                    self?.verticalCardSwiperView.isUserInteractionEnabled = true
-                    self?.isCardRemovalAllowed = true
                 }
             })
         }
+        self.verticalCardSwiperView.isUserInteractionEnabled = true
     }
 
     func didCancelSwipe(cell: CardCell) {

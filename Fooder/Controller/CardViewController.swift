@@ -58,8 +58,6 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
         
         cardSwiper.register(nib: UINib(nibName: K.cardSwiperNibName, bundle: nil), forCellWithReuseIdentifier: K.cardSwiperNibName)
         
-        self.navigationBar.topItem?.title = "위치: "
-        
         let urlString = "\(placesURL)&location=\(location!.coordinate.latitude),\(location!.coordinate.longitude)&radius=2500&type=restaurant&keyword=food&key=\(K.placesAPIKey)"
         dispatchGroup.enter()
         fetchNearbyRestaurants(urlString, location!, false) { success in
@@ -77,29 +75,19 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
         }
         dispatchGroup.notify(queue: .main)
         {
-            if self.navBarTitle == nil
-            {
-                self.lookUpCurrentLocation(self.location!)
-                { placemark in
-                    self.navigationBar.topItem?.title = "위치: \((placemark?.name)!)"
-                    //stop loading animation
-                    K.globalFlag = true
-                    SwiftSpinner.hide()
-                }
+            self.lookUpCurrentLocation(self.location!)
+            { placemark in
+                print(placemark?.name)
+                self.navigationBar.topItem?.title = "위치: \((placemark?.name)!)"
+                self.navigationBar.isHidden = false
+                self.navigationBar.setBackgroundImage(UIImage(), for: .default)
+                self.navigationBar.shadowImage = UIImage()
+                self.navigationBar.isTranslucent = true
+                self.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: K.mainBgColor , .font: UIFont.systemFont(ofSize: 20.0, weight: .medium)]
+                //stop loading animation
+                K.globalFlag = true
+                SwiftSpinner.hide()
             }
-            else
-            {
-                self.navigationBar.topItem?.title = "위치: \(self.navBarTitle!)"
-            }
-            self.navigationBar.isHidden = false
-            self.navigationBar.setBackgroundImage(UIImage(), for: .default)
-            self.navigationBar.shadowImage = UIImage()
-            self.navigationBar.isTranslucent = true
-            self.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: K.mainBgColor , .font: UIFont.systemFont(ofSize: 20.0, weight: .medium)]
-            
-            //stop loading animation
-            K.globalFlag = true
-            SwiftSpinner.hide()
         }
         
         saveButton.backgroundColor = .white
@@ -182,10 +170,11 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
                     }
                     else
                     {
-                        DispatchQueue.main.asyncAfter(deadline: .now()+3.7)
-                        {
-                            self.dispatchGroup.leave()
-                        }
+                        self.dispatchGroup.leave()
+//                        DispatchQueue.main.asyncAfter(deadline: .now()+3.7)
+//                        {
+//                            self.dispatchGroup.leave()
+//                        }
                         completion(true)
                         return
                     }
@@ -314,36 +303,33 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
 
     func willSwipeCardAway(card: CardCell, index: Int, swipeDirection: SwipeDirection)
     {
-        if swipeDirection ==  .Right
-        {
-            //add to favorites
-            print("add to favorites")
-            card.layer.borderColor = UIColor.systemPink.cgColor
-            card.layer.borderWidth = 5
-            card.layer.cornerRadius = 10
-            self.cardSwiper.reloadData()
-            //add to favorites array
-        }
-        else if swipeDirection == .Left
+        if swipeDirection == .Left
         {
             //delete item
-            removePlaceAtIndex(index) { success in
-                if success == true
-                {
-                    self.cardSwiper.reloadData()
-                    print("delete item")
-                }
-            }
+            removePlaceAtIndex(index)
             //trash can opening animation??
         }
     }
     
     func didSwipeCardAway(card: CardCell, index: Int, swipeDirection: SwipeDirection)
     {
-        self.cardSwiper.reloadData()
+        if swipeDirection ==  .Right
+        {
+            //add to favorites
+            print("add to favorites")
+
+            self.cardSwiper.reloadData()
+            print(placesName[index])
+            print(placesID[index])
+            //add to favorites array
+        }
+        else if swipeDirection == .Left
+        {
+            self.cardSwiper.reloadData()
+        }
     }
     
-    func removePlaceAtIndex(_ index: Int, completion: @escaping (_ success: Bool) -> Void)
+    func removePlaceAtIndex(_ index: Int)
     {
         placesName.remove(at: index)
         placesID.remove(at: index)
@@ -351,7 +337,6 @@ class CardViewController: UIViewController, VerticalCardSwiperDatasource, Vertic
         placesVicinity.remove(at: index)
         cardSwiper.deleteCards(at: [index])
         print(index)
-        completion(true)
         return
     }
 }

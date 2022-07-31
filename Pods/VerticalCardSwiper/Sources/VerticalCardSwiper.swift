@@ -247,10 +247,16 @@ extension VerticalCardSwiper: CardDelegate {
                 swipedCard = cell
             }
             self.verticalCardSwiperView.performBatchUpdates({
-                self.verticalCardSwiperView.deleteItems(at: [indexPathToRemove])
-                if direction == .Right
+                if direction == .Left
                 {
-                    self.verticalCardSwiperView.insertItems(at: [indexPathToRemove])
+                    self.verticalCardSwiperView.deleteItems(at: [indexPathToRemove])
+                }
+                else if direction == .Right
+                {
+                    cardForItem(at: indexPathToRemove[1])!.layer.borderColor = UIColor.systemPink.cgColor
+                    cardForItem(at: indexPathToRemove[1])!.layer.borderWidth = 5
+                    cardForItem(at: indexPathToRemove[1])!.layer.cornerRadius = 10
+                    print(indexPathToRemove[1])
                 }
             }, completion: { [weak self] _ in
                 self?.verticalCardSwiperView.collectionViewLayout.invalidateLayout()

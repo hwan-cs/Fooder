@@ -5,7 +5,7 @@
 
 | 위치 검색  | 상하좌우 스와이프 | 식당 상세정보|
 | -------------  | -------------  | -------------  |
-| ![alt text](https://user-images.githubusercontent.com/68496759/207869785-11b40a7e-811b-423d-a588-c9a2c24a9b55.PNG)  |![alt text](https://user-images.githubusercontent.com/68496759/207869775-a71b83d1-80cc-4578-8327-6ff6098b140e.PNG)|![alt text](https://user-images.githubusercontent.com/68496759/207869781-4ee5bb06-c412-4f70-912a-2274a65cd25f.PNG)|
+| ![alt text](https://user-images.githubusercontent.com/68496759/207869785-11b40a7e-811b-423d-a588-c9a2c24a9b55.PNG)  |![alt text](https://user-images.githubusercontent.com/68496759/207871299-12cbbfae-a1f7-4b00-819c-75e46f28bc12.PNG)|![alt text](https://user-images.githubusercontent.com/68496759/207871313-7bc297b1-aab8-4b6b-94a2-7420a03b01cd.PNG)|
 
 ## 기능 🛠
 
